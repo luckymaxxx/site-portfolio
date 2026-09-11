@@ -1,0 +1,140 @@
+---
+import { inlineMd } from '../lib/inline-md';
+
+interface StampItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  /** Назва проекту — це h1 сторінки. */
+  title: string;
+  /** Підзаголовок під назвою. */
+  tagline?: string | undefined;
+  /** Пари «мітка · значення» у штампі праворуч. */
+  stamp?: StampItem[];
+  /** Вступний абзац під шапкою. Підтримує **жирний**. */
+  lede?: string | undefined;
+  links?: { label: string; url: string }[];
+}
+
+const { title, tagline, stamp = [], lede, links = [] } = Astro.props;
+---
+
+<header class="masthead">
+  <h1>
+    {title}
+    {tagline && <span class="thin">{tagline}</span>}
+  </h1>
+
+  {
+    stamp.length > 0 && (
+      <div class="stamp">
+        {stamp.map((item) => (
+          <div>
+            {item.label} · <b>{item.value}</b>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</header>
+
+{lede && <p class="lede" set:html={inlineMd(lede)} />}
+
+{
+  links.length > 0 && (
+    <p class="links">
+      {links.map((link) => (
+        <a href={link.url} rel="noopener">
+          {link.label}
+        </a>
+      ))}
+    </p>
+  )
+}
+
+<style>
+  .masthead {
+    border-bottom: 1px solid var(--ink);
+    padding: 46px 0 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 32px;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  h1 {
+    font-size: clamp(38px, 6.2vw, 66px);
+    line-height: 0.98;
+    font-weight: 800;
+  }
+
+  .thin {
+    display: block;
+    font-weight: 500;
+    font-size: clamp(19px, 2.4vw, 27px);
+    letter-spacing: -0.005em;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    line-height: 1.25;
+    text-wrap: pretty;
+  }
+
+  .stamp {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--ink-faint);
+    text-align: right;
+  }
+
+  .stamp b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .lede {
+    font-size: 20.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-top: 34px;
+    max-width: 62ch;
+  }
+
+  .lede :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-top: 22px;
+    font-family: var(--f-mono);
+    font-size: 12px;
+  }
+
+  .links a {
+    color: var(--accent-deep);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+  }
+
+  .links a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+
+  @media (max-width: 640px) {
+    .stamp {
+      text-align: left;
+    }
+    .lede {
+      font-size: 18.5px;
+    }
+  }
+</style>

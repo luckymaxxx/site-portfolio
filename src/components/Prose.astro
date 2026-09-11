@@ -1,0 +1,129 @@
+---
+/** Обгортка для відрендереного Markdown-тіла контентного файлу. */
+interface Props {
+  /** Обмежити ширину до комфортних ~66ch. */
+  narrow?: boolean;
+}
+
+const { narrow = true } = Astro.props;
+---
+
+<div class:list={['prose', { narrow }]}>
+  <slot />
+</div>
+
+<style>
+  .prose {
+    font-size: 17px;
+    line-height: 1.62;
+    color: var(--ink);
+  }
+
+  .narrow {
+    max-width: var(--measure);
+  }
+
+  .prose :global(> * + *) {
+    margin-top: 18px;
+  }
+
+  .prose :global(h2) {
+    font-size: 24px;
+    margin-top: 44px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .prose :global(h3) {
+    font-size: 19px;
+    margin-top: 32px;
+  }
+
+  .prose :global(h4) {
+    font-size: 16px;
+    margin-top: 26px;
+  }
+
+  .prose :global(p) {
+    text-wrap: pretty;
+  }
+
+  .prose :global(a) {
+    color: var(--accent-deep);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .prose :global(li::marker) {
+    color: var(--accent);
+  }
+
+  .prose :global(blockquote) {
+    margin: 0;
+    padding: 4px 0 4px 20px;
+    border-left: 3px solid var(--accent);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin-block: 34px;
+  }
+
+  .prose :global(img) {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+  }
+
+  .prose :global(pre) {
+    overflow-x: auto;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15.5px;
+  }
+
+  .prose :global(th) {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+    text-align: left;
+    padding: 0 16px 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .prose :global(td) {
+    padding: 12px 16px 12px 0;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+</style>

@@ -1,0 +1,207 @@
+---
+import { inlineMd } from '../lib/inline-md';
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  role: string;
+  period: string;
+  summary: string;
+  bullets: string[];
+  stackLine?: string | undefined;
+}
+
+const { lang, role, period, summary, bullets, stackLine } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div class="resume">
+  <div class="resume-head">
+    <span class="eyebrow">{t('case.resumeLabel')}</span>
+    <button
+      class="select-btn"
+      type="button"
+      data-resume-select
+      data-idle={t('case.resumeSelect')}
+      data-mac={t('case.resumeSelectedMac')}
+      data-pc={t('case.resumeSelectedPc')}
+    >
+      {t('case.resumeSelect')}
+    </button>
+  </div>
+
+  <div class="resume-body" data-resume-body>
+    <h3>{role}</h3>
+    <div class="role-meta">{period}</div>
+
+    <p class="summary" set:html={inlineMd(summary)} />
+
+    {
+      bullets.length > 0 && (
+        <ul>
+          {bullets.map((bullet) => (
+            <li set:html={inlineMd(bullet)} />
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      stackLine && (
+        <div class="stackline">
+          <b>{t('case.stackLine')}</b> {stackLine}
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const btn = document.querySelector('[data-resume-select]');
+    const body = document.querySelector('[data-resume-body]');
+    if (!btn || !body) return;
+
+    let timer = 0;
+
+    btn.addEventListener('click', function () {
+      const range = document.createRange();
+      range.selectNodeContents(body);
+      const selection = window.getSelection();
+      if (!selection) return;
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      const isMac = /Mac|iPhone|iPad/.test(navigator.userAgent);
+      btn.textContent = isMac ? btn.dataset.mac : btn.dataset.pc;
+
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function () {
+        btn.textContent = btn.dataset.idle;
+      }, 4000);
+    });
+  })();
+</script>
+
+<style>
+  .resume {
+    background: var(--invert-ground);
+    color: var(--invert-ink);
+    border: 1px solid var(--invert-line);
+    padding: 34px 34px 38px;
+  }
+
+  .resume-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--invert-line);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .resume-head .eyebrow {
+    color: var(--invert-accent);
+  }
+
+  .select-btn {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--invert-ground);
+    background: var(--invert-accent);
+    border: none;
+    padding: 9px 14px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .select-btn:hover {
+    filter: brightness(1.08);
+  }
+
+  .select-btn:focus-visible {
+    outline: 2px solid var(--invert-ink);
+    outline-offset: 2px;
+  }
+
+  h3 {
+    color: var(--invert-ink);
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .role-meta {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    color: var(--invert-soft);
+    margin-bottom: 18px;
+  }
+
+  .summary {
+    color: var(--invert-soft);
+    font-size: 15.5px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+    max-width: 78ch;
+  }
+
+  ul {
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    max-width: 84ch;
+  }
+
+  li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 15.5px;
+    line-height: 1.5;
+  }
+
+  li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--invert-accent);
+  }
+
+  .resume-body :global(strong) {
+    font-weight: 600;
+    color: var(--invert-ink);
+  }
+
+  .resume-body :global(code) {
+    background: var(--invert-line);
+    color: var(--invert-accent);
+  }
+
+  .stackline {
+    border-top: 1px solid var(--invert-line);
+    padding-top: 16px;
+    font-family: var(--f-mono);
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--invert-soft);
+    max-width: 90ch;
+  }
+
+  .stackline b {
+    color: var(--invert-ink);
+    font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .resume {
+      padding: 24px 20px 28px;
+    }
+  }
+</style>

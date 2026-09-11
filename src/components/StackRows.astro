@@ -1,0 +1,85 @@
+---
+interface Item {
+  name: string;
+  key?: boolean;
+}
+
+interface Group {
+  group: string;
+  items: Item[];
+}
+
+interface Props {
+  groups: Group[];
+}
+
+const { groups } = Astro.props;
+---
+
+<div class="stack">
+  {
+    groups.map((group) => (
+      <div class="stack-row">
+        <span class="eyebrow label">{group.group}</span>
+        <div class="chips">
+          {group.items.map((item) => (
+            <span class:list={['chip', { key: item.key }]}>{item.name}</span>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stack-row {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 10px 28px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    align-items: baseline;
+  }
+
+  .stack-row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .label {
+    color: var(--ink);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .chip {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    line-height: 1;
+    padding: 6px 9px;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    background: var(--surface);
+    border-radius: 2px;
+  }
+
+  .chip.key {
+    border-color: var(--accent);
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+  }
+
+  @media (max-width: 640px) {
+    .stack-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

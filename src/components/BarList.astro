@@ -1,0 +1,105 @@
+---
+interface Row {
+  label: string;
+  value: number;
+}
+
+interface Props {
+  title: string;
+  note?: string | undefined;
+  data: Row[];
+}
+
+const { title, note, data } = Astro.props;
+
+const max = Math.max(...data.map((row) => row.value), 1);
+const summary = `${title}: ${data.map((row) => `${row.label} — ${row.value}`).join(', ')}`;
+---
+
+<figure class="chart">
+  <figcaption class="chart-title">{title}</figcaption>
+
+  <div class="hbars" role="img" aria-label={summary}>
+    {
+      data.map((row) => (
+        <div class="hbar">
+          <span class="path" title={row.label}>
+            {row.label}
+          </span>
+          <span class="track">
+            <span class="fill" style={`width:${((row.value / max) * 100).toFixed(1)}%`} />
+          </span>
+          <span class="val num">{row.value}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  {note && <p class="chart-note">{note}</p>}
+</figure>
+
+<style>
+  .chart {
+    margin: 0;
+  }
+
+  .chart-title {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 20px;
+  }
+
+  .hbars {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .hbar {
+    display: grid;
+    grid-template-columns: 150px 1fr 52px;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+  }
+
+  .path {
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track {
+    height: 9px;
+    background: var(--surface-sunk);
+  }
+
+  .fill {
+    display: block;
+    height: 9px;
+    background: var(--accent);
+  }
+
+  .val {
+    text-align: right;
+    color: var(--ink);
+  }
+
+  .chart-note {
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    margin-top: 14px;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 640px) {
+    .hbar {
+      grid-template-columns: 118px 1fr 44px;
+    }
+  }
+</style>

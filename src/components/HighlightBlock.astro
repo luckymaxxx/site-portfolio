@@ -1,0 +1,97 @@
+---
+import { inlineMd } from '../lib/inline-md';
+
+interface Props {
+  title: string;
+  /** Короткий лічильник праворуч у шапці блоку. */
+  meta?: string | undefined;
+  /** Одне речення контексту. */
+  intro?: string | undefined;
+  points: string[];
+}
+
+const { title, meta, intro, points } = Astro.props;
+---
+
+<article class="block">
+  <div class="block-top">
+    <h3>{title}</h3>
+    {meta && <span class="count">{meta}</span>}
+  </div>
+
+  {intro && <p set:html={inlineMd(intro)} />}
+
+  {
+    points.length > 0 && (
+      <ul>
+        {points.map((point) => (
+          <li set:html={inlineMd(point)} />
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .block {
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 26px 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .block-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .count {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  p {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  li {
+    padding-left: 17px;
+    position: relative;
+  }
+
+  li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 7px;
+    height: 1px;
+    background: var(--accent);
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import { inlineMd } from '../lib/inline-md';
+
+interface Term {
+  term: string;
+  definition: string;
+}
+
+interface Props {
+  terms: Term[];
+}
+
+const { terms } = Astro.props;
+---
+
+<div class="glossary">
+  {
+    terms.map((item) => (
+      <dl>
+        <dt>{item.term}</dt>
+        <dd set:html={inlineMd(item.definition)} />
+      </dl>
+    ))
+  }
+</div>
+
+<style>
+  .glossary {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 26px 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px 40px;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  dt {
+    font-family: var(--f-mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+</style>

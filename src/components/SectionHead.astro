@@ -1,0 +1,56 @@
+---
+interface Props {
+  /** Заголовок секції. */
+  title: string;
+  /** Мітка моношрифтом праворуч. */
+  eyebrow?: string | undefined;
+  /** Рівень заголовка — на сторінці має бути рівно один h1. */
+  level?: 2 | 3;
+  id?: string | undefined;
+}
+
+const { title, eyebrow, level = 2, id } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<div class="sec-head">
+  <Heading id={id}>{title}</Heading>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+</div>
+
+<style>
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: clamp(23px, 3vw, 30px);
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .eyebrow {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 520px) {
+    .sec-head {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .eyebrow {
+      margin-left: 0;
+      white-space: normal;
+    }
+  }
+</style>

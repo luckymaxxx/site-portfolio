@@ -1,0 +1,49 @@
+---
+import HighlightBlock from './HighlightBlock.astro';
+
+interface Highlight {
+  title: string;
+  meta?: string | undefined;
+  intro?: string | undefined;
+  points: string[];
+}
+
+interface Props {
+  highlights: Highlight[];
+}
+
+const { highlights } = Astro.props;
+---
+
+{/*
+  Hairline-решітка: рамка зверху й зліва на контейнері, справа й знизу — на блоках.
+  Через gap із фоном --line порожня клітинка останнього ряду ставала суцільною
+  сірою плиткою, коли кількість блоків не кратна кількості колонок.
+*/}
+<div class="blocks">
+  {
+    highlights.map((highlight) => (
+      <HighlightBlock
+        title={highlight.title}
+        meta={highlight.meta}
+        intro={highlight.intro}
+        points={highlight.points}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .blocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  @media (max-width: 380px) {
+    .blocks {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

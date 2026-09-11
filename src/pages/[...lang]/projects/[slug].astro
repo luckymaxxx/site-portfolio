@@ -1,0 +1,68 @@
+---
+import { render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import type { Lang } from '../../../i18n/ui';
+import { defaultLang } from '../../../i18n/ui';
+import { localizedPath, locales } from '../../../i18n/utils';
+import { getProjectsForLang, projectPath, type ProjectEntry } from '../../../lib/projects';
+import ProjectLayout from '../../../layouts/ProjectLayout.astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = [];
+
+  for (const lang of locales) {
+    const projects = await getProjectsForLang(lang);
+
+    for (const [index, project] of projects.entries()) {
+      const prev = projects[index - 1];
+      const next = projects[index + 1];
+
+      paths.push({
+        params: {
+          lang: lang === defaultLang ? undefined : lang,
+          slug: project.slug,
+        },
+        props: {
+          lang,
+          entry: project.entry,
+          slug: project.slug,
+          prev: prev
+            ? { href: localizedPath(projectPath(prev.slug), lang), title: prev.entry.data.title }
+            : null,
+          next: next
+            ? { href: localizedPath(projectPath(next.slug), lang), title: next.entry.data.title }
+            : null,
+        },
+      });
+    }
+  }
+
+  return paths;
+};
+
+interface Props {
+  lang: Lang;
+  entry: ProjectEntry;
+  slug: string;
+  prev: { href: string; title: string } | null;
+  next: { href: string; title: string } | null;
+}
+
+const { lang, entry, slug, prev, next } = Astro.props;
+const { Content } = await render(entry);
+
+// Тіло Markdown-файлу може бути порожнім або містити лише коментар —
+// тоді секцію «Додатково» не показуємо.
+const hasBody = entry.body !== undefined && entry.body.replace(/<!--[\s\S]*?-->/g, '').trim() !== '';
+---
+
+<ProjectLayout
+  project={entry.data}
+  lang={lang}
+  path={projectPath(slug)}
+  hasBody={hasBody}
+  prev={prev}
+  next={next}
+>
+  <Content />
+</ProjectLayout>

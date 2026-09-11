@@ -1,0 +1,75 @@
+---
+interface Figure {
+  label: string;
+  value: string;
+  note?: string | undefined;
+}
+
+interface Props {
+  figures: Figure[];
+}
+
+const { figures } = Astro.props;
+---
+
+{
+  figures.length > 0 && (
+    <dl class="figures">
+      {figures.map((figure) => (
+        <div class="fig">
+          <dt>{figure.label}</dt>
+          <dd class="num">
+            {figure.value}
+            {figure.note && <span>{figure.note}</span>}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+<style>
+  .figures {
+    margin: 40px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .fig {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 20px 20px;
+    background: var(--surface);
+  }
+
+  dt {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 31px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  dd span {
+    display: block;
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0;
+    color: var(--ink-soft);
+    margin-top: 9px;
+    line-height: 1.4;
+  }
+</style>

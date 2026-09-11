@@ -1,0 +1,249 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '../i18n/ui';
+import { absoluteUrl, formatPeriod, localizedPath, useTranslations } from '../i18n/utils';
+import BaseLayout from './BaseLayout.astro';
+import Masthead from '../components/Masthead.astro';
+import SectionHead from '../components/SectionHead.astro';
+import FigureGrid from '../components/FigureGrid.astro';
+import PainTable from '../components/PainTable.astro';
+import Glossary from '../components/Glossary.astro';
+import ColumnChart from '../components/ColumnChart.astro';
+import BarList from '../components/BarList.astro';
+import HighlightGrid from '../components/HighlightGrid.astro';
+import StackRows from '../components/StackRows.astro';
+import ResumeCard from '../components/ResumeCard.astro';
+import Prose from '../components/Prose.astro';
+
+interface NavItem {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>['data'];
+  lang: Lang;
+  path: string;
+  /** Чи є в тілі файлу хоч щось, що варто рендерити. */
+  hasBody: boolean;
+  prev?: NavItem | null;
+  next?: NavItem | null;
+}
+
+const { project, lang, path, hasBody, prev = null, next = null } = Astro.props;
+const t = useTranslations(lang);
+
+const stamp = [
+  { label: t('case.role'), value: project.role },
+  { label: t('case.period'), value: formatPeriod(project.periodStart, project.periodEnd, lang) },
+  ...(project.status ? [{ label: t('case.status'), value: project.status }] : []),
+  ...(project.domain ? [{ label: t('case.domain'), value: project.domain }] : []),
+  ...(project.teamSize ? [{ label: t('case.team'), value: String(project.teamSize) }] : []),
+];
+
+const hasCharts = Boolean(project.timelineChart || project.distributionChart);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.title,
+  headline: project.title,
+  description: project.description,
+  abstract: project.tagline,
+  inLanguage: project.lang,
+  url: absoluteUrl(localizedPath(path, lang), Astro.site),
+  ...(project.cover ? { image: absoluteUrl(project.cover, Astro.site) } : {}),
+};
+---
+
+<BaseLayout
+  lang={lang}
+  path={path}
+  title={project.title}
+  description={project.description}
+  ogImage={project.ogImage}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <article class="page case">
+    <Masthead
+      title={project.title}
+      tagline={project.tagline}
+      stamp={stamp}
+      lede={project.lede}
+      links={project.links}
+    />
+
+    <FigureGrid figures={project.figures} />
+
+    {
+      project.pains.length > 0 && (
+        <section>
+          <SectionHead title={t('case.pains')} eyebrow={t('case.painsEyebrow')} />
+          <PainTable
+            rows={project.pains}
+            headLeft={t('case.painsColLeft')}
+            headRight={t('case.painsColRight')}
+          />
+        </section>
+      )
+    }
+
+    {
+      project.glossary.length > 0 && (
+        <section>
+          <SectionHead title={t('case.glossary')} eyebrow={t('case.glossaryEyebrow')} />
+          <Glossary terms={project.glossary} />
+        </section>
+      )
+    }
+
+    {
+      hasCharts && (
+        <section>
+          <SectionHead title={t('case.charts')} eyebrow={t('case.chartsEyebrow')} />
+          <div class="chart-wrap">
+            {project.timelineChart && (
+              <ColumnChart
+                title={project.timelineChart.title}
+                note={project.timelineChart.note}
+                max={project.timelineChart.max}
+                axis={project.timelineChart.axis}
+                data={project.timelineChart.data}
+              />
+            )}
+            {project.distributionChart && (
+              <BarList
+                title={project.distributionChart.title}
+                note={project.distributionChart.note}
+                data={project.distributionChart.data}
+              />
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      project.highlights.length > 0 && (
+        <section>
+          <SectionHead title={t('case.highlights')} eyebrow={t('case.highlightsEyebrow')} />
+          <HighlightGrid highlights={project.highlights} />
+        </section>
+      )
+    }
+
+    {
+      project.stack.length > 0 && (
+        <section>
+          <SectionHead title={t('case.stack')} eyebrow={t('case.stackEyebrow')} />
+          <StackRows groups={project.stack} />
+        </section>
+      )
+    }
+
+    {
+      project.resumeBlock && (
+        <section>
+          <SectionHead title={t('case.resume')} eyebrow={t('case.resumeEyebrow')} />
+          <ResumeCard
+            lang={lang}
+            role={project.resumeBlock.role}
+            period={project.resumeBlock.period}
+            summary={project.resumeBlock.summary}
+            bullets={project.resumeBlock.bullets}
+            stackLine={project.resumeBlock.stackLine}
+          />
+        </section>
+      )
+    }
+
+    {
+      hasBody && (
+        <section>
+          <SectionHead title={t('case.notes')} eyebrow={t('case.notesEyebrow')} />
+          <Prose>
+            <slot />
+          </Prose>
+        </section>
+      )
+    }
+
+    {
+      (prev || next) && (
+        <nav class="case-nav" aria-label={t('home.work')}>
+          {prev ? (
+            <a class="nav-item prev" href={prev.href}>
+              <span class="eyebrow">{t('case.prev')}</span>
+              <span class="nav-title">{prev.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+          {next && (
+            <a class="nav-item next" href={next.href}>
+              <span class="eyebrow">{t('case.next')}</span>
+              <span class="nav-title">{next.title}</span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .case {
+    padding-bottom: 26px;
+  }
+
+  .case :global(section) {
+    margin-top: 78px;
+  }
+
+  .chart-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 44px 56px;
+    margin-top: 8px;
+  }
+
+  .case-nav {
+    margin-top: 78px;
+    border-top: 1px solid var(--line);
+    padding-top: 22px;
+    display: flex;
+    gap: 20px 40px;
+    justify-content: space-between;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    max-width: 46%;
+  }
+
+  .nav-item.next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .nav-title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-item:hover .nav-title {
+    color: var(--accent-deep);
+  }
+
+  @media (max-width: 560px) {
+    .nav-item {
+      max-width: 100%;
+    }
+  }
+</style>
