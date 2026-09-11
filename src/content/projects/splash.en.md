@@ -178,7 +178,7 @@ highlights:
     meta: 'cross-cutting work'
     intro: 'The work that removes the entry barrier for a new customer and keeps the system manageable.'
     points:
-      - 'Customer import from CSV and the migration mapping from the competing Skimmer system'
+      - 'Customer import from CSV and the data migration mapping from a competing system'
       - 'Typesense sync configuration for search across large volumes'
       - 'A settings overhaul: grouping into sections, a location profile with Google address autocomplete, a product and service catalogue, a notification matrix'
       - 'CI improvements, unit test fixes, cross-app help popovers, and small-screen responsiveness'
@@ -282,7 +282,7 @@ resumeBlock:
     - 'Built the **Performance Hub** module from scratch (commissions, bonuses, attendance, feedback, initiatives) — from Prisma models to a feature-flagged UI.'
     - "Introduced a **branded transactional email system** that automatically applies the sending location's identity to every email, including the auth flow."
     - 'Worked on the **technician mobile app on Expo / React Native** (day route, checklists, chemical readings, photos, visit reports) with updates delivered over EAS OTA.'
-    - 'Implemented **customer import from CSV and migration from the competing Skimmer system**, removing the switching barrier for new platform customers.'
+    - 'Implemented **customer import from CSV and data migration from a competing system**, removing the switching barrier for new platform customers.'
   stackLine: 'TypeScript · Next.js 15 · React 19 · React Native / Expo · tRPC · Express 5 · Prisma 6 · PostgreSQL · Redis · BullMQ · Socket.IO · Typesense · Tailwind v4 · Zod · TanStack Query · Turborepo · Docker · AWS S3 · QuickBooks · Nuvei / Stripe / Maxio · Twilio · Stream Chat · Sentry'
 
 description: 'A breakdown of my work on Splash — a multi-tenant FSM platform for pool service companies: ≈215 tickets and 236 database migrations over 17 months.'

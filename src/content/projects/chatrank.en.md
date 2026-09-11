@@ -60,7 +60,7 @@ glossary:
   - term: 'GEO / AEO'
     definition: 'Optimising not for the classic results page but for the answers of AI assistants: getting the model to mention and recommend the brand. The category the product competes in.'
   - term: 'Topic / Prompt'
-    definition: 'The theme and the specific question being tracked. Topic is the billing unit: plans are measured in topics (5 / 20 / 100 / 200), not in seats.'
+    definition: 'The theme and the specific question being tracked. Topic is the billing unit: plans are measured in topics rather than in seats.'
   - term: 'Simulation'
     definition: 'A run of a tracked prompt against an AI model, with the answer parsed. Two kinds: `mentions_ranking` (where the brand sits in the list) and `informational`.'
   - term: 'Ibaia'
@@ -125,7 +125,7 @@ highlights:
 
   - title: 'The sync orchestrator on Ibaia'
     meta: '79% of the content-sync module'
-    intro: 'Inbound sync is a hub with spokes keyed by CMS type; before this, exactly one spoke actually worked (scraping) while Shopify and WordPress were stubs.'
+    intro: 'Inbound sync is built as a hub with spokes keyed by CMS type: a shared orchestrator and a separate adapter per platform.'
     points:
       - 'Wrote three tasks per CMS for all three platforms, following the framework contract (`subtask` only orchestrates, `atom` performs its side effect exactly once), plus three cron tasks'
       - 'Implemented a full document enumeration rather than a delta: a CMS has no tombstones, so a remote deletion is only detectable by reconciling the set of identifiers'
@@ -271,8 +271,7 @@ fifteen authors across its whole history. Thirteen of them are mine — 0.3%.
 That number is honest and at the same time describes almost nothing, so two others
 belong next to it. First, the team merges by squashing: my 119 commits across fourteen
 branches collapsed into eight in mainline. Second, during my window — late June to
-mid-August 2026 — two people were effectively committing to `next`: the CTO, who mostly
-writes straight to the branch, and me, who came through pull requests. Of the nine PRs
+mid-August 2026 — there were two active contributors on `next`. Of the nine pull requests
 merged in that period, eight were mine.
 
 So this case is not about volume but about depth in one workstream: two-way content sync
