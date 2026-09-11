@@ -40,7 +40,7 @@ links:
   ]
 
 # 2–3 речення для головної сторінки: хто я, у чому сильний, що шукаю.
-bioShort: 'A full-stack engineer who carries a task through every layer — from the database schema and background workers up to React screens and the mobile app. For the past few years I have been building **B2B products in TypeScript**: real-time route planning, billing and payments, syncing with third-party APIs. I am looking for a team where an engineer owns a direction, not a ticket queue.'
+bioShort: 'A full-stack engineer who carries a task through every layer — from the database schema and background workers up to React screens and the mobile app. For the past few years I have been building **B2B products in TypeScript**: real-time route planning, billing and payments, syncing with third-party APIs. I work with coding agents daily — Claude Code and Cursor — and tune them to the project: custom skills, repository rules, MCP. I am looking for a team where an engineer owns a direction, not a ticket queue.'
 
 # Навички для головної та CV. group — назва рядка, items — чіпи.
 # key: true підсвічує чіп акцентом (те, чим користуюсь щодня).
