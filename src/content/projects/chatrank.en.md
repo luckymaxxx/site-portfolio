@@ -3,7 +3,7 @@ title: 'ChatRank'
 tagline: 'An AI search optimisation platform (GEO/AEO) for brands and agencies'
 lang: en
 slug: 'chatrank'
-featured: false
+featured: true
 order: 2
 draft: false
 
