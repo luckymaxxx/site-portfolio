@@ -40,7 +40,7 @@ links:
   ]
 
 # 2–3 речення для головної сторінки: хто я, у чому сильний, що шукаю.
-bioShort: ''
+bioShort: 'A full-stack engineer who carries a task through every layer — from the database schema and background workers up to React screens and the mobile app. For the past few years I have been building **B2B products in TypeScript**: real-time route planning, billing and payments, syncing with third-party APIs. I am looking for a team where an engineer owns a direction, not a ticket queue.'
 
 # Навички для головної та CV. group — назва рядка, items — чіпи.
 # key: true підсвічує чіп акцентом (те, чим користуюсь щодня).
@@ -137,16 +137,16 @@ skills:
 # company порожній → у лівій колонці показується назва проекту.
 # Для запису без кейсу заповни всі поля вручну і постав project: null.
 experience:
-  - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «Splash»
+  - company: 'Noble.codes'
     role: 'Full-Stack Engineer'
     period: 'April 2025 - Present'
     project: 'splash'
-  - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «ChatRank»
+  - company: 'Noble.codes'
     role: 'Full-Stack Engineer'
     period: 'June 2026 - August 2026'
     project: 'chatrank'
-  - company: 'Datacenter management tool'
-    role: 'Software Developer'
+  - company: 'Eleks'
+    role: 'Backend Engineer'
     period: 'July 2021 - March 2025'
     summary: 'A web service providing data management and validation tools for an international banking and financial services provider. It acted as middleware connected to other data management servers, so data updates arrived in time; users could also create and control their own entities. A team of 5.'
     bullets:
@@ -155,9 +155,9 @@ experience:
       - 'Built UI pages'
       - 'Performed refactoring'
     stack: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'Vue.js', 'ESLint']
-    project: null
-  - company: 'Performance analysis dashboard'
-    role: 'Software Developer'
+    project: 'Datacenter management tool'
+  - company: 'Eleks'
+    role: 'Frontend Engineer'
     period: 'January 2020 - June 2021'
     summary: 'Analysis tools for clients: results presented as numbers, widgets, charts and tables. Users could move widgets around, rename them and resize them. A team of 8.'
     bullets:
@@ -167,25 +167,30 @@ experience:
       - 'Covered the code with unit tests'
       - 'Raised test coverage and fixed existing tests and bugs'
     stack: ['Angular', 'RxJS', 'NgRx', 'Redux', 'Sass', 'HTML', 'CSS']
-    project: null
-  - company: 'Console game (pet project)'
-    role: 'Software Developer'
+    project: 'Performance analysis dashboard'
+  - company: 'Eleks'
+    role: 'Backend Engineer'
     period: 'October 2019 - December 2019'
     summary: 'A simple Pac-Man-like game that runs in the console. Many players could connect to the server at once without interacting with each other: after logging in a player moves with the arrow keys, collects stars and avoids enemies. A leaderboard tracks points and deaths. A team of 2.'
     bullets:
       - 'Built both the server side and the client side'
     stack: ['Node.js', 'Express.js', 'Socket.IO', 'MongoDB', 'Pug', 'Jest', 'Istanbul', 'Heroku']
-    project: null
+    project: 'Console game (pet project)'
 
 # Освіта — найновіше зверху.
 # Приклад: - { institution: '', degree: '', period: '2018 — 2022' }
-education: []
+education:
+  [
+    { institution: 'Lviv Polytechnic National University', degree: 'bachelor', period: '2014 - 2018' },
+    { institution: 'Lviv Polytechnic National University', degree: 'master', period: '2018 - 2019' },
+    { institution: 'Lviv Polytechnic National University', degree: 'master', period: '2025 - 2026' },
+  ]
 
 # Мови та рівні. Приклад: - { name: 'English', level: 'B2' }
 languages: [{ name: 'English', level: 'B2' }, { name: 'Ukrainian', level: 'Native' }]
 
 # Одне речення для <meta name="description"> і OG головної сторінки.
-description: ''
+description: 'Maksym Sytkiv — a full-stack engineer in Lviv, Ukraine: TypeScript, React, Node. I build B2B products end to end, from the database schema to the mobile app.'
 
 # Шлях до OG-зображення у public/, напр. '/og/home.png', або null.
 ogImage: null
