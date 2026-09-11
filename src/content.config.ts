@@ -172,6 +172,8 @@ const profile = defineCollection({
     /** Статус доступності або null, якщо показувати не треба. */
     availability: z.string().nullable().default(null),
     email: z.string().optional(),
+    /** Телефон у міжнародному форматі. Парсери ATS майже завжди його шукають. */
+    phone: z.string().optional(),
     links: z.array(linkSchema).default([]),
     /** 2–3 речення для головної. */
     bioShort: z.string().default(''),

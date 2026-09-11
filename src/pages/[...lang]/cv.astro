@@ -38,6 +38,7 @@ const projectHrefs = Object.fromEntries(
 );
 
 const contacts = [
+  ...(data?.phone ? [{ label: data.phone, url: `tel:${data.phone.replace(/\s/g, '')}` }] : []),
   ...(data?.email ? [{ label: data.email, url: `mailto:${data.email}` }] : []),
   ...(data?.links ?? []),
 ];

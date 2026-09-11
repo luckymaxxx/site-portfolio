@@ -22,6 +22,12 @@ availability: 'Open to offers'
 # Пошта для контактів і резюме.
 email: 'sytkivmax@gmail.com'
 
+# Телефон у міжнародному форматі, напр. '+380 XX XXX XX XX'.
+# Парсери ATS майже завжди шукають його в контактному блоці резюме.
+# Увага: сторінка /cv публічна, тож номер буде видно всім — лишай порожнім,
+# якщо не хочеш цього.
+phone: ''
+
 # Посилання на профілі. label — те, що видно; url — повна адреса з https://
 # Приклад:
 # links:
@@ -133,9 +139,11 @@ skills:
 experience:
   - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «Splash»
     role: 'Full-Stack Engineer'
+    period: 'April 2025 - Present'
     project: 'splash'
   - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «ChatRank»
     role: 'Full-Stack Engineer'
+    period: 'June 2026 - August 2026'
     project: 'chatrank'
   - company: 'Datacenter management tool'
     role: 'Software Developer'
