@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { langStaticPaths, useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} path="/cv" title={t('cv.title')}>
+  <div class="page">
+    <h1>
+      {t('cv.title')} — {lang}
+    </h1>
+  </div>
+</BaseLayout>

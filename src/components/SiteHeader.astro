@@ -1,0 +1,119 @@
+---
+import type { Lang } from '../i18n/ui';
+import { localizedPath, useTranslations } from '../i18n/utils';
+import LangSwitch from './LangSwitch.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  lang: Lang;
+  /** Канонічний шлях поточної сторінки, без мовного префіксу. */
+  path: string;
+  /** Ім'я у вордмарку зліва. */
+  name: string;
+}
+
+const { lang, path, name } = Astro.props;
+const t = useTranslations(lang);
+
+const links = [
+  { href: '/', label: t('nav.home') },
+  { href: '/cv', label: t('nav.cv') },
+];
+---
+
+<header class="site-header">
+  <div class="page inner">
+    <a class="wordmark" href={localizedPath('/', lang)}>
+      {name}
+    </a>
+
+    <nav class="nav" aria-label={t('nav.ariaLabel')}>
+      {links.map((link) => (
+        <a
+          href={localizedPath(link.href, lang)}
+          class:list={['nav-link', { active: path === link.href }]}
+          aria-current={path === link.href ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="controls">
+      <LangSwitch lang={lang} path={path} />
+      <ThemeToggle lang={lang} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+    background: var(--ground);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 14px 26px;
+    padding-block: 14px;
+    flex-wrap: wrap;
+  }
+
+  .wordmark {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .wordmark:hover {
+    color: var(--accent-deep);
+  }
+
+  .nav {
+    display: flex;
+    gap: 20px;
+    margin-right: auto;
+  }
+
+  .nav-link {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav-link:hover {
+    color: var(--ink);
+  }
+
+  .nav-link.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media (max-width: 520px) {
+    .nav {
+      order: 3;
+      width: 100%;
+      margin-right: 0;
+    }
+    .controls {
+      margin-left: auto;
+    }
+  }
+</style>

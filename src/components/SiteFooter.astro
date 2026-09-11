@@ -1,0 +1,80 @@
+---
+import type { Lang } from '../i18n/ui';
+import { localizedPath, useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  name: string;
+  email?: string | undefined;
+  links?: { label: string; url: string }[] | undefined;
+}
+
+const { lang, name, email, links = [] } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="page inner">
+    <span>
+      © {year} {name} · {t('footer.rights')}
+    </span>
+
+    <span class="links">
+      {email && <a href={`mailto:${email}`}>{email}</a>}
+      {links.map((link) => (
+        <a href={link.url} rel="me noopener">
+          {link.label}
+        </a>
+      ))}
+      <a href={localizedPath('/cv', lang)}>{t('nav.cv')}</a>
+    </span>
+
+    <span class="built">{t('footer.builtWith')}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 70px;
+    border-top: 1px solid var(--line);
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block: 18px 30px;
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: var(--ink-faint);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+
+  .links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    color: var(--accent);
+  }
+
+  .built {
+    margin-left: auto;
+  }
+
+  @media (max-width: 760px) {
+    .built {
+      margin-left: 0;
+    }
+  }
+</style>

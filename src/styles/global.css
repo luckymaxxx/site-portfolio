@@ -1,0 +1,298 @@
+@import 'tailwindcss';
+
+/* ============================================================================
+   ТОКЕНИ ДЛЯ TAILWIND
+   Мапимо власні CSS-змінні в неймспейси Tailwind. `inline` обов'язковий:
+   утиліти підставляють var(--ground) замість жорсткого значення, тому
+   перемикання теми на :root працює без перегенерації класів.
+   ========================================================================= */
+
+@theme inline {
+  /* вимикаємо дефолтну палітру Tailwind — кольори лише з токенів нижче */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-soft: var(--accent-soft);
+  --color-invert-ground: var(--invert-ground);
+  --color-invert-ink: var(--invert-ink);
+  --color-invert-soft: var(--invert-soft);
+  --color-invert-line: var(--invert-line);
+  --color-invert-accent: var(--invert-accent);
+
+  --font-display: var(--f-display);
+  --font-body: var(--f-body);
+  --font-mono: var(--f-mono);
+
+  /* типографічна шкала еталона */
+  --text-axis: 10px;
+  --text-label: 10.5px;
+  --text-chart: 11px;
+  --text-eyebrow: 11.5px;
+  --text-chip: 12px;
+  --text-term: 12.5px;
+  --text-note: 13.5px;
+  --text-meta: 14px;
+  --text-def: 14.5px;
+  --text-bullet: 15px;
+  --text-block: 15.5px;
+  --text-body: 17px;
+  --text-h3: 19px;
+  --text-lede: 20.5px;
+  --text-figure: 31px;
+
+  --radius-hair: 2px;
+}
+
+/* ============================================================================
+   ПАЛІТРА — три стани теми.
+   1) голий :root       — повна світла палітра (жоден колір не живе тільки в media)
+   2) prefers-color-scheme: dark, якщо користувач не обрав світлу вручну
+   3) [data-theme="dark"] — явний вибір користувача
+   ========================================================================= */
+
+:root {
+  --ground: #f5f7f5;
+  --surface: #ffffff;
+  --surface-sunk: #eceff0;
+  --ink: #101f1d;
+  --ink-soft: #4b5c59;
+  --ink-faint: #7d8c89;
+  --line: #d6dedb;
+  --line-soft: #e6ebe9;
+  --accent: #0c6b68;
+  --accent-deep: #084a48;
+  --accent-soft: #dfeeea;
+  --invert-ground: #0f1917;
+  --invert-ink: #e9efec;
+  --invert-soft: #9cb0ab;
+  --invert-line: #2a3835;
+  --invert-accent: #59c6b8;
+
+  --f-display: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+  --f-body: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --measure: 66ch;
+  --page: 1140px;
+  --page-pad: 28px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ground: #0d1514;
+    --surface: #141d1c;
+    --surface-sunk: #101817;
+    --ink: #e7eeeb;
+    --ink-soft: #9bafab;
+    --ink-faint: #748884;
+    --line: #253230;
+    --line-soft: #1c2726;
+    --accent: #5cc9bb;
+    --accent-deep: #8fded2;
+    --accent-soft: #16302d;
+    --invert-ground: #05201e;
+    --invert-ink: #e7f4f1;
+    --invert-soft: #93b8b2;
+    --invert-line: #10403c;
+    --invert-accent: #6fd6c8;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --ground: #0d1514;
+  --surface: #141d1c;
+  --surface-sunk: #101817;
+  --ink: #e7eeeb;
+  --ink-soft: #9bafab;
+  --ink-faint: #748884;
+  --line: #253230;
+  --line-soft: #1c2726;
+  --accent: #5cc9bb;
+  --accent-deep: #8fded2;
+  --accent-soft: #16302d;
+  --invert-ground: #05201e;
+  --invert-ink: #e7f4f1;
+  --invert-soft: #93b8b2;
+  --invert-line: #10403c;
+  --invert-accent: #6fd6c8;
+
+  color-scheme: dark;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-pad: 18px;
+  }
+}
+
+/* ============================================================================
+   БАЗОВІ СТИЛІ
+   ========================================================================= */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  @media (max-width: 640px) {
+    body {
+      font-size: 16px;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    text-wrap: balance;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: var(--line);
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    text-decoration-color: var(--accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--surface);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+/* ============================================================================
+   УТИЛІТИ ДИЗАЙН-СИСТЕМИ
+   ========================================================================= */
+
+/* горизонтальна обгортка сторінки */
+@utility page {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+/* ширина комфортного читання */
+@utility measure {
+  max-width: var(--measure);
+}
+
+/* моношрифтовий заголовок-мітка */
+@utility eyebrow {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  line-height: 1.4;
+}
+
+/* цифри в колонку */
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* широкий контент скролиться всередині себе, а не тягне сторінку */
+@utility scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+/* службове посилання «перейти до контенту» */
+@utility skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  background: var(--accent);
+  color: var(--surface);
+  padding: 10px 16px;
+
+  &:focus {
+    left: 0;
+  }
+}
+
+/* інлайн-код і чіпи-теги всередині тексту */
+@utility tag {
+  font-family: var(--f-mono);
+  font-size: 0.86em;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+@layer base {
+  code {
+    font-family: var(--f-mono);
+    font-size: 0.86em;
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+}
+
+/* ============================================================================
+   РУХ
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

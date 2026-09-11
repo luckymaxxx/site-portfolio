@@ -1,0 +1,109 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="toggle"
+  aria-label={t('theme.toggle')}
+  title={t('theme.toggle')}
+>
+  <svg class="icon icon-moon" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+  <svg class="icon icon-sun" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+    <path
+      d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+    ></path>
+  </svg>
+</button>
+
+<style>
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* Видимість іконок повторює три стани теми — інакше буде миготіння. */
+  .icon-sun {
+    display: none;
+  }
+  .icon-moon {
+    display: block;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .icon-sun {
+      display: block;
+    }
+    :global(:root:not([data-theme='light'])) .icon-moon {
+      display: none;
+    }
+  }
+
+  :global(:root[data-theme='dark']) .icon-sun {
+    display: block;
+  }
+  :global(:root[data-theme='dark']) .icon-moon {
+    display: none;
+  }
+  :global(:root[data-theme='light']) .icon-sun {
+    display: none;
+  }
+  :global(:root[data-theme='light']) .icon-moon {
+    display: block;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      const root = document.documentElement;
+      const explicit = root.getAttribute('data-theme');
+      const current =
+        explicit || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* приватний режим — тема просто не запам'ятається */
+      }
+    });
+  })();
+</script>

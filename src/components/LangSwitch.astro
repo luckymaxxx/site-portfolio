@@ -1,0 +1,60 @@
+---
+import { languageShort, type Lang } from '../i18n/ui';
+import { localizedPath, locales, useTranslations } from '../i18n/utils';
+
+interface Props {
+  /** Поточна мова сторінки. */
+  lang: Lang;
+  /** Канонічний шлях сторінки без мовного префіксу, напр. '/projects/splash'. */
+  path: string;
+}
+
+const { lang, path } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<nav class="lang" aria-label={t('lang.ariaLabel')}>
+  {locales.map((code) => (
+    <a
+      href={localizedPath(path, code)}
+      hreflang={code}
+      class:list={['item', { active: code === lang }]}
+      aria-current={code === lang ? 'true' : undefined}
+    >
+      {languageShort[code]}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .lang {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .item {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    padding: 9px 9px 8px;
+    color: var(--ink-faint);
+    background: var(--surface);
+    text-decoration: none;
+  }
+
+  .item + .item {
+    border-left: 1px solid var(--line);
+  }
+
+  .item:hover {
+    color: var(--accent);
+  }
+
+  .item.active {
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+  }
+</style>

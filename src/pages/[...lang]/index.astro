@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { langStaticPaths } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+export const getStaticPaths = langStaticPaths;
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<BaseLayout lang={lang} path="/" title="Portfolio">
+  <div class="page">
+    <h1>Home — {lang}</h1>
+  </div>
+</BaseLayout>

@@ -1,0 +1,135 @@
+---
+import '../styles/global.css';
+import { getEntry } from 'astro:content';
+import type { Lang } from '../i18n/ui';
+import {
+  absoluteUrl,
+  getAlternates,
+  htmlLang,
+  localizedPath,
+  locales,
+  useTranslations,
+} from '../i18n/utils';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  /** Текст у <title> без назви сайту. */
+  title: string;
+  /** Опис для <meta description> та OG. */
+  description?: string | undefined;
+  lang: Lang;
+  /** Канонічний шлях сторінки без мовного префіксу: '/', '/cv', '/projects/splash'. */
+  path: string;
+  ogImage?: string | null | undefined;
+  ogType?: 'website' | 'article';
+  /** Готовий об'єкт JSON-LD, серіалізується як є. */
+  jsonLd?: Record<string, unknown> | null | undefined;
+  /** Прибрати хедер і футер (сторінка друку, 404). */
+  bare?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang,
+  path,
+  ogImage = null,
+  ogType = 'website',
+  jsonLd = null,
+  bare = false,
+} = Astro.props;
+
+const profile = await getEntry('profile', lang);
+// Профіль може бути ще не заповнений — сайт має рендеритись і без нього.
+const name = profile?.data.name || 'Maksym Sytkiv';
+const siteName = name;
+const metaDescription = description || profile?.data.description || '';
+
+const t = useTranslations(lang);
+const canonical = absoluteUrl(localizedPath(path, lang), Astro.site);
+const alternates = getAlternates(path, Astro.site);
+const ogImageUrl = ogImage ? absoluteUrl(ogImage, Astro.site) : null;
+const pageTitle = path === '/' ? `${name} — ${title}` : `${title} · ${name}`;
+---
+
+<!doctype html>
+<html lang={htmlLang(lang)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{pageTitle}</title>
+    {metaDescription && <meta name="description" content={metaDescription} />}
+    <link rel="canonical" href={canonical} />
+
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={pageTitle} />
+    {metaDescription && <meta property="og:description" content={metaDescription} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={htmlLang(lang).replace('-', '_')} />
+    {locales
+      .filter((code) => code !== lang)
+      .map((code) => (
+        <meta property="og:locale:alternate" content={htmlLang(code).replace('-', '_')} />
+      ))}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"
+    />
+
+    {/* Тема застосовується до першого рендеру — інакше буде спалах світлого фону. */}
+    <script is:inline>
+      (function () {
+        try {
+          const saved = localStorage.getItem('theme');
+          if (saved === 'dark' || saved === 'light') {
+            document.documentElement.setAttribute('data-theme', saved);
+          }
+        } catch {
+          /* localStorage недоступний — лишаємо системну тему */
+        }
+      })();
+    </script>
+    {jsonLd && (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)}></script>
+    )}
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">
+      {t('skip.toContent')}
+    </a>
+
+    {!bare && <SiteHeader lang={lang} path={path} name={name} />}
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    {!bare && (
+      <SiteFooter lang={lang} name={name} email={profile?.data.email} links={profile?.data.links} />
+    )}
+  </body>
+</html>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>
