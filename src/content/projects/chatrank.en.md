@@ -31,9 +31,9 @@ figures:
   - label: 'Orchestrator'
     value: '79%'
     note: '1,831 of 2,313 lines in the content-sync directory'
-  - label: 'Code changed'
-    value: '8,213'
-    note: 'lines added, 519 removed — lock files and generated snapshots excluded'
+  - label: 'Format converters'
+    value: '4'
+    note: 'Rust → WASM, covered by 29 unit tests over fixtures from real posts'
   - label: 'Duration'
     value: '6 wk'
     note: '119 commits across branches, 13 in next after squash merges'
@@ -250,7 +250,7 @@ resumeBlock:
   summary: 'A monorepo of 10 applications and 56 packages: React 19 + tRPC, background task workers, Rust crates in WASM, a 63-table Postgres schema and ClickHouse. I owned one end-to-end workstream — two-way content sync with the customer CMS.'
   bullets:
     - 'Designed and shipped **two-way content sync with three CMS platforms** (Payload, EmDash, Shopify) — **14 pull requests across three stacks of dependent branches**; of the nine PRs merged into mainline in that period, eight were mine.'
-    - 'Wrote **four rich text format converters in Rust** (Lexical ↔ canonical format, Portable Text ↔ canonical format) — **2,134 lines, 42% of the crate** — compiled to WASM, with TS facades for browser and server and 29 unit tests over fixtures from real posts.'
+    - 'Wrote **four rich text format converters in Rust** (Lexical ↔ canonical format, Portable Text ↔ canonical format) — **42% of the crate** — compiled to WASM, with TS facades for browser and server and 29 unit tests over fixtures from real posts.'
     - 'Built the **sync orchestrator on the in-house background task framework** (79% of the module): remote deletion detection by set reconciliation, hash-based divergence detection with no auto-merge, and echo suppression after our own publish.'
     - 'Designed the **sync data model** — content and metadata hashes on both sides, divergence flags, a polling cursor — and a **single write boundary for documents**, so the Postgres columns and the S3 blobs cannot drift apart between the editor, the AI, the importer and the sync.'
     - 'Generalised integration authentication: extracted a **credential provider interface** over the existing OAuth path and added a static API-key path that reuses the same encrypted token store.'
@@ -282,7 +282,6 @@ converter up to the divergence banner in the editor.
 ## On the numbers
 
 The figures come from the repository's git history as of 11 September 2026.
-"Lines changed" excludes lock files and the generated `drizzle-kit` schema snapshot of
-8,475 lines — with them the number would be 16,778 rather than 8,213.
 The per-module shares are computed with `git blame` on the current branch, so they are
-lines still alive in the code, not the sum of everything ever written.
+lines still alive in the code, not the sum of everything ever written; lock files and the
+generated `drizzle-kit` schema snapshot are excluded from the counts.

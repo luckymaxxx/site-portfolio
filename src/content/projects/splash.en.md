@@ -25,9 +25,9 @@ figures:
   - label: 'Tickets closed'
     value: '≈215'
     note: 'feature branches against Linear tickets (SPL-)'
-  - label: 'Code changed'
-    value: '410k'
-    note: 'lines added, 187k removed'
+  - label: 'Prisma models'
+    value: '218'
+    note: '8 applications and 22 internal packages in the monorepo'
   - label: 'DB migrations'
     value: '236'
     note: 'of 608 in the project — ≈39% of all schema changes'
@@ -277,7 +277,7 @@ resumeBlock:
   period: 'April 2025 — present'
   summary: 'A multi-tenant B2B platform for pool service companies in the US: technician route planning, work orders, commercial quotes, subscription service plans, invoicing and payments, a customer portal and a mobile app for the field. A monorepo of 8 applications and 22 packages, on a PostgreSQL schema of 218 models.'
   bullets:
-    - "Delivered **≈215 product tickets (1,220+ commits, +410k lines of code)** as one of two core engineers; authored **236 of the project's 608** database migrations."
+    - "Delivered **≈215 product tickets** as one of two core engineers; authored **236 of the project's 608** database migrations."
     - 'Designed and shipped a **step-by-step wizard design system** in a dedicated package and migrated 11 key create and edit flows onto it — unifying the UX for customers, jobs, quotes, plans and invoices with no regressions in legacy code.'
     - 'Built the end-to-end **sales funnel**: branded customer-facing quote pages with e-signature, online approval and payment card capture, plus transactional conversion of a quote into a customer with a recurring service plan.'
     - 'Developed a **real-time route planning system** (tRPC + BullMQ + Redis pub/sub + Socket.IO) and fixed a critical optimiser bug by collapsing three divergent route-cost implementations into one model.'
