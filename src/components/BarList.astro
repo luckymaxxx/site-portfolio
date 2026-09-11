@@ -20,19 +20,17 @@ const summary = `${title}: ${data.map((row) => `${row.label} — ${row.value}`).
   <figcaption class="chart-title">{title}</figcaption>
 
   <div class="hbars" role="img" aria-label={summary}>
-    {
-      data.map((row) => (
-        <div class="hbar">
-          <span class="path" title={row.label}>
-            {row.label}
-          </span>
-          <span class="track">
-            <span class="fill" style={`width:${((row.value / max) * 100).toFixed(1)}%`} />
-          </span>
-          <span class="val num">{row.value}</span>
-        </div>
-      ))
-    }
+    {data.map((row) => (
+      <div class="hbar">
+        <span class="path" title={row.label}>
+          {row.label}
+        </span>
+        <span class="track">
+          <span class="fill" style={`width:${((row.value / max) * 100).toFixed(1)}%`} />
+        </span>
+        <span class="val num">{row.value}</span>
+      </div>
+    ))}
   </div>
 
   {note && <p class="chart-note">{note}</p>}

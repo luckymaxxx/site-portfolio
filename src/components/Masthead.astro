@@ -27,32 +27,28 @@ const { title, tagline, stamp = [], lede, links = [] } = Astro.props;
     {tagline && <span class="thin">{tagline}</span>}
   </h1>
 
-  {
-    stamp.length > 0 && (
-      <div class="stamp">
-        {stamp.map((item) => (
-          <div>
-            {item.label} · <b>{item.value}</b>
-          </div>
-        ))}
-      </div>
-    )
-  }
+  {stamp.length > 0 && (
+    <div class="stamp">
+      {stamp.map((item) => (
+        <div>
+          {item.label} · <b>{item.value}</b>
+        </div>
+      ))}
+    </div>
+  )}
 </header>
 
 {lede && <p class="lede" set:html={inlineMd(lede)} />}
 
-{
-  links.length > 0 && (
-    <p class="links">
-      {links.map((link) => (
-        <a href={link.url} rel="noopener">
-          {link.label}
-        </a>
-      ))}
-    </p>
-  )
-}
+{links.length > 0 && (
+  <p class="links">
+    {links.map((link) => (
+      <a href={link.url} rel="noopener">
+        {link.label}
+      </a>
+    ))}
+  </p>
+)}
 
 <style>
   .masthead {

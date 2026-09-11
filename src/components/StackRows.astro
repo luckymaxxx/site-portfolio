@@ -17,18 +17,16 @@ const { groups } = Astro.props;
 ---
 
 <div class="stack">
-  {
-    groups.map((group) => (
-      <div class="stack-row">
-        <span class="eyebrow label">{group.group}</span>
-        <div class="chips">
-          {group.items.map((item) => (
-            <span class:list={['chip', { key: item.key }]}>{item.name}</span>
-          ))}
-        </div>
+  {groups.map((group) => (
+    <div class="stack-row">
+      <span class="eyebrow label">{group.group}</span>
+      <div class="chips">
+        {group.items.map((item) => (
+          <span class:list={['chip', { key: item.key }]}>{item.name}</span>
+        ))}
       </div>
-    ))
-  }
+    </div>
+  ))}
 </div>
 
 <style>

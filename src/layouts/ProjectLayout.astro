@@ -76,119 +76,103 @@ const jsonLd = {
 
     <FigureGrid figures={project.figures} />
 
-    {
-      project.pains.length > 0 && (
-        <section>
-          <SectionHead title={t('case.pains')} eyebrow={t('case.painsEyebrow')} />
-          <PainTable
-            rows={project.pains}
-            headLeft={t('case.painsColLeft')}
-            headRight={t('case.painsColRight')}
-          />
-        </section>
-      )
-    }
+    {project.pains.length > 0 && (
+      <section>
+        <SectionHead title={t('case.pains')} eyebrow={t('case.painsEyebrow')} />
+        <PainTable
+          rows={project.pains}
+          headLeft={t('case.painsColLeft')}
+          headRight={t('case.painsColRight')}
+        />
+      </section>
+    )}
 
-    {
-      project.glossary.length > 0 && (
-        <section>
-          <SectionHead title={t('case.glossary')} eyebrow={t('case.glossaryEyebrow')} />
-          <Glossary terms={project.glossary} />
-        </section>
-      )
-    }
+    {project.glossary.length > 0 && (
+      <section>
+        <SectionHead title={t('case.glossary')} eyebrow={t('case.glossaryEyebrow')} />
+        <Glossary terms={project.glossary} />
+      </section>
+    )}
 
-    {
-      hasCharts && (
-        <section>
-          <SectionHead title={t('case.charts')} eyebrow={t('case.chartsEyebrow')} />
-          <div class="chart-wrap">
-            {project.timelineChart && (
-              <ColumnChart
-                title={project.timelineChart.title}
-                note={project.timelineChart.note}
-                max={project.timelineChart.max}
-                axis={project.timelineChart.axis}
-                data={project.timelineChart.data}
-              />
-            )}
-            {project.distributionChart && (
-              <BarList
-                title={project.distributionChart.title}
-                note={project.distributionChart.note}
-                data={project.distributionChart.data}
-              />
-            )}
-          </div>
-        </section>
-      )
-    }
-
-    {
-      project.highlights.length > 0 && (
-        <section>
-          <SectionHead title={t('case.highlights')} eyebrow={t('case.highlightsEyebrow')} />
-          <HighlightGrid highlights={project.highlights} />
-        </section>
-      )
-    }
-
-    {
-      project.stack.length > 0 && (
-        <section>
-          <SectionHead title={t('case.stack')} eyebrow={t('case.stackEyebrow')} />
-          <StackRows groups={project.stack} />
-        </section>
-      )
-    }
-
-    {
-      project.resumeBlock && (
-        <section>
-          <SectionHead title={t('case.resume')} eyebrow={t('case.resumeEyebrow')} />
-          <ResumeCard
-            lang={lang}
-            role={project.resumeBlock.role}
-            period={project.resumeBlock.period}
-            summary={project.resumeBlock.summary}
-            bullets={project.resumeBlock.bullets}
-            stackLine={project.resumeBlock.stackLine}
-          />
-        </section>
-      )
-    }
-
-    {
-      hasBody && (
-        <section>
-          <SectionHead title={t('case.notes')} eyebrow={t('case.notesEyebrow')} />
-          <Prose>
-            <slot />
-          </Prose>
-        </section>
-      )
-    }
-
-    {
-      (prev || next) && (
-        <nav class="case-nav" aria-label={t('home.work')}>
-          {prev ? (
-            <a class="nav-item prev" href={prev.href}>
-              <span class="eyebrow">{t('case.prev')}</span>
-              <span class="nav-title">{prev.title}</span>
-            </a>
-          ) : (
-            <span />
+    {hasCharts && (
+      <section>
+        <SectionHead title={t('case.charts')} eyebrow={t('case.chartsEyebrow')} />
+        <div class="chart-wrap">
+          {project.timelineChart && (
+            <ColumnChart
+              title={project.timelineChart.title}
+              note={project.timelineChart.note}
+              max={project.timelineChart.max}
+              axis={project.timelineChart.axis}
+              data={project.timelineChart.data}
+            />
           )}
-          {next && (
-            <a class="nav-item next" href={next.href}>
-              <span class="eyebrow">{t('case.next')}</span>
-              <span class="nav-title">{next.title}</span>
-            </a>
+          {project.distributionChart && (
+            <BarList
+              title={project.distributionChart.title}
+              note={project.distributionChart.note}
+              data={project.distributionChart.data}
+            />
           )}
-        </nav>
-      )
-    }
+        </div>
+      </section>
+    )}
+
+    {project.highlights.length > 0 && (
+      <section>
+        <SectionHead title={t('case.highlights')} eyebrow={t('case.highlightsEyebrow')} />
+        <HighlightGrid highlights={project.highlights} />
+      </section>
+    )}
+
+    {project.stack.length > 0 && (
+      <section>
+        <SectionHead title={t('case.stack')} eyebrow={t('case.stackEyebrow')} />
+        <StackRows groups={project.stack} />
+      </section>
+    )}
+
+    {project.resumeBlock && (
+      <section>
+        <SectionHead title={t('case.resume')} eyebrow={t('case.resumeEyebrow')} />
+        <ResumeCard
+          lang={lang}
+          role={project.resumeBlock.role}
+          period={project.resumeBlock.period}
+          summary={project.resumeBlock.summary}
+          bullets={project.resumeBlock.bullets}
+          stackLine={project.resumeBlock.stackLine}
+        />
+      </section>
+    )}
+
+    {hasBody && (
+      <section>
+        <SectionHead title={t('case.notes')} eyebrow={t('case.notesEyebrow')} />
+        <Prose>
+          <slot />
+        </Prose>
+      </section>
+    )}
+
+    {(prev || next) && (
+      <nav class="case-nav" aria-label={t('home.work')}>
+        {prev ? (
+          <a class="nav-item prev" href={prev.href}>
+            <span class="eyebrow">{t('case.prev')}</span>
+            <span class="nav-title">{prev.title}</span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {next && (
+          <a class="nav-item next" href={next.href}>
+            <span class="eyebrow">{t('case.next')}</span>
+            <span class="nav-title">{next.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
   </article>
 </BaseLayout>
 
@@ -203,7 +187,7 @@ const jsonLd = {
 
   .chart-wrap {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
     gap: 44px 56px;
     margin-top: 8px;
   }

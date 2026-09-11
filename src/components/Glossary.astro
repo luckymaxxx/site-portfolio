@@ -14,14 +14,12 @@ const { terms } = Astro.props;
 ---
 
 <div class="glossary">
-  {
-    terms.map((item) => (
-      <dl>
-        <dt>{item.term}</dt>
-        <dd set:html={inlineMd(item.definition)} />
-      </dl>
-    ))
-  }
+  {terms.map((item) => (
+    <dl>
+      <dt>{item.term}</dt>
+      <dd set:html={inlineMd(item.definition)} />
+    </dl>
+  ))}
 </div>
 
 <style>
@@ -31,7 +29,7 @@ const { terms } = Astro.props;
     border-left: 3px solid var(--accent);
     padding: 26px 28px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
     gap: 18px 40px;
   }
 

@@ -37,23 +37,19 @@ const t = useTranslations(lang);
 
     <p class="summary" set:html={inlineMd(summary)} />
 
-    {
-      bullets.length > 0 && (
-        <ul>
-          {bullets.map((bullet) => (
-            <li set:html={inlineMd(bullet)} />
-          ))}
-        </ul>
-      )
-    }
+    {bullets.length > 0 && (
+      <ul>
+        {bullets.map((bullet) => (
+          <li set:html={inlineMd(bullet)} />
+        ))}
+      </ul>
+    )}
 
-    {
-      stackLine && (
-        <div class="stackline">
-          <b>{t('case.stackLine')}</b> {stackLine}
-        </div>
-      )
-    }
+    {stackLine && (
+      <div class="stackline">
+        <b>{t('case.stackLine')}</b> {stackLine}
+      </div>
+    )}
   </div>
 </div>
 

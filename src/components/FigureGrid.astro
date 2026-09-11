@@ -12,27 +12,25 @@ interface Props {
 const { figures } = Astro.props;
 ---
 
-{
-  figures.length > 0 && (
-    <dl class="figures">
-      {figures.map((figure) => (
-        <div class="fig">
-          <dt>{figure.label}</dt>
-          <dd class="num">
-            {figure.value}
-            {figure.note && <span>{figure.note}</span>}
-          </dd>
-        </div>
-      ))}
-    </dl>
-  )
-}
+{figures.length > 0 && (
+  <dl class="figures">
+    {figures.map((figure) => (
+      <div class="fig">
+        <dt>{figure.label}</dt>
+        <dd class="num">
+          {figure.value}
+          {figure.note && <span>{figure.note}</span>}
+        </dd>
+      </div>
+    ))}
+  </dl>
+)}
 
 <style>
   .figures {
     margin: 40px 0 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(168px, 100%), 1fr));
     border-top: 1px solid var(--line);
     border-left: 1px solid var(--line);
   }

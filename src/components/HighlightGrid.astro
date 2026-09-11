@@ -21,22 +21,20 @@ const { highlights } = Astro.props;
   сірою плиткою, коли кількість блоків не кратна кількості колонок.
 */}
 <div class="blocks">
-  {
-    highlights.map((highlight) => (
-      <HighlightBlock
-        title={highlight.title}
-        meta={highlight.meta}
-        intro={highlight.intro}
-        points={highlight.points}
-      />
-    ))
-  }
+  {highlights.map((highlight) => (
+    <HighlightBlock
+      title={highlight.title}
+      meta={highlight.meta}
+      intro={highlight.intro}
+      points={highlight.points}
+    />
+  ))}
 </div>
 
 <style>
   .blocks {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr));
     border-top: 1px solid var(--line);
     border-left: 1px solid var(--line);
   }

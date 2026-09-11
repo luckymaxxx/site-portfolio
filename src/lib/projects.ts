@@ -24,7 +24,9 @@ export async function getPublishedProjects(): Promise<ProjectEntry[]> {
 }
 
 /** slug → мовні версії цього кейсу. */
-export async function getProjectsBySlug(): Promise<Map<string, Partial<Record<Lang, ProjectEntry>>>> {
+export async function getProjectsBySlug(): Promise<
+  Map<string, Partial<Record<Lang, ProjectEntry>>>
+> {
   const entries = await getPublishedProjects();
   const map = new Map<string, Partial<Record<Lang, ProjectEntry>>>();
 

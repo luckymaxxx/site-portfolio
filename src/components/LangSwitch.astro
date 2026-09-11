@@ -19,7 +19,7 @@ const t = useTranslations(lang);
       href={localizedPath(path, code)}
       hreflang={code}
       class:list={['item', { active: code === lang }]}
-      aria-current={code === lang ? 'true' : undefined}
+      aria-current={code === lang ? 'page' : undefined}
     >
       {languageShort[code]}
     </a>

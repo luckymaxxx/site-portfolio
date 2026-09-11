@@ -21,15 +21,13 @@ const { title, meta, intro, points } = Astro.props;
 
   {intro && <p set:html={inlineMd(intro)} />}
 
-  {
-    points.length > 0 && (
-      <ul>
-        {points.map((point) => (
-          <li set:html={inlineMd(point)} />
-        ))}
-      </ul>
-    )
-  }
+  {points.length > 0 && (
+    <ul>
+      {points.map((point) => (
+        <li set:html={inlineMd(point)} />
+      ))}
+    </ul>
+  )}
 </article>
 
 <style>
@@ -41,13 +39,17 @@ const { title, meta, intro, points } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: 13px;
+    /* Без цього min-content блоку розтягує колонку грида на вузьких екранах. */
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
   .block-top {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 12px;
+    gap: 4px 12px;
   }
 
   h3 {

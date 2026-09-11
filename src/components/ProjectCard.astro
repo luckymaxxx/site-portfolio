@@ -24,64 +24,62 @@ const keyStack = project.stack
   .slice(0, 8);
 ---
 
-{
-  variant === 'featured' ? (
-    <article class="featured">
-      {project.cover && (
-        <a class="cover" href={href} tabindex="-1" aria-hidden="true">
-          <img src={project.cover} alt="" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+{variant === 'featured' ? (
+  <article class="featured">
+    {project.cover && (
+      <a class="cover" href={href} tabindex="-1" aria-hidden="true">
+        <img src={project.cover} alt="" width="1600" height="900" loading="lazy" decoding="async" />
+      </a>
+    )}
+
+    <div class="body">
+      <div class="top">
+        {project.domain && <span class="eyebrow">{project.domain}</span>}
+        <span class="period num">{period}</span>
+      </div>
+
+      <h3>
+        <a href={href}>{project.title}</a>
+      </h3>
+
+      <p class="tagline">{project.tagline}</p>
+
+      {langNote && <p class="lang-note">{langNote}</p>}
+
+      {figures.length > 0 && (
+        <dl class="mini-figures">
+          {figures.map((figure) => (
+            <div>
+              <dt>{figure.label}</dt>
+              <dd class="num">{figure.value}</dd>
+            </div>
+          ))}
+        </dl>
       )}
 
-      <div class="body">
-        <div class="top">
-          {project.domain && <span class="eyebrow">{project.domain}</span>}
-          <span class="period num">{period}</span>
+      {keyStack.length > 0 && (
+        <div class="chips">
+          {keyStack.map((item) => (
+            <span class="chip">{item.name}</span>
+          ))}
         </div>
+      )}
 
-        <h3>
-          <a href={href}>{project.title}</a>
-        </h3>
-
-        <p class="tagline">{project.tagline}</p>
-
-        {langNote && <p class="lang-note">{langNote}</p>}
-
-        {figures.length > 0 && (
-          <dl class="mini-figures">
-            {figures.map((figure) => (
-              <div>
-                <dt>{figure.label}</dt>
-                <dd class="num">{figure.value}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
-
-        {keyStack.length > 0 && (
-          <div class="chips">
-            {keyStack.map((item) => (
-              <span class="chip">{item.name}</span>
-            ))}
-          </div>
-        )}
-
-        <a class="read" href={href}>
-          {t('card.read')}
-        </a>
-      </div>
-    </article>
-  ) : (
-    <a class="row" href={href}>
-      <span class="row-main">
-        <span class="row-title">{project.title}</span>
-        <span class="row-tagline">{project.tagline}</span>
-        {langNote && <span class="lang-note">{langNote}</span>}
-      </span>
-      <span class="row-meta num">{period}</span>
-    </a>
-  )
-}
+      <a class="read" href={href}>
+        {t('card.read')}
+      </a>
+    </div>
+  </article>
+) : (
+  <a class="row" href={href}>
+    <span class="row-main">
+      <span class="row-title">{project.title}</span>
+      <span class="row-tagline">{project.tagline}</span>
+      {langNote && <span class="lang-note">{langNote}</span>}
+    </span>
+    <span class="row-meta num">{period}</span>
+  </a>
+)}
 
 <style>
   /* ---------- велика картка ---------- */
@@ -116,9 +114,10 @@ const keyStack = project.stack
 
   .top {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 14px;
+    gap: 4px 14px;
   }
 
   .period {

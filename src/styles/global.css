@@ -67,7 +67,10 @@
   --surface-sunk: #eceff0;
   --ink: #101f1d;
   --ink-soft: #4b5c59;
-  --ink-faint: #7d8c89;
+  /* Еталон дає #7d8c89, але на --ground це лише 3.26:1 — нижче за WCAG AA
+     для дрібних моно-міток, якими цей токен і користується. Затемнено до
+     4.76:1 на --ground і 5.13:1 на --surface; відтінок збережено. */
+  --ink-faint: #61716e;
   --line: #d6dedb;
   --line-soft: #e6ebe9;
   --accent: #0c6b68;
@@ -279,6 +282,7 @@
     color: var(--accent-deep);
     padding: 1px 5px;
     border-radius: 2px;
+    overflow-wrap: break-word;
   }
 }
 

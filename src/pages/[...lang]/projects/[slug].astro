@@ -53,7 +53,8 @@ const { Content } = await render(entry);
 
 // Тіло Markdown-файлу може бути порожнім або містити лише коментар —
 // тоді секцію «Додатково» не показуємо.
-const hasBody = entry.body !== undefined && entry.body.replace(/<!--[\s\S]*?-->/g, '').trim() !== '';
+const hasBody =
+  entry.body !== undefined && entry.body.replace(/<!--[\s\S]*?-->/g, '').trim() !== '';
 ---
 
 <ProjectLayout

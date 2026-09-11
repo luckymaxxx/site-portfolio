@@ -35,19 +35,19 @@ const summary = `${title}: ${data.map((point) => `${point.label} — ${point.val
     </div>
 
     <div class="plot">
-      {
-        data.map((point) => (
-          <div
-            class:list={['bar', { partial: point.partial }]}
-            style={`height:${((point.value / safeMax) * 100).toFixed(1)}%`}
-            title={`${point.label} · ${point.value}`}
-          />
-        ))
-      }
+      {data.map((point) => (
+        <div
+          class:list={['bar', { partial: point.partial }]}
+          style={`height:${((point.value / safeMax) * 100).toFixed(1)}%`}
+          title={`${point.label} · ${point.value}`}
+        />
+      ))}
     </div>
 
     <div class="x-axis" aria-hidden="true">
-      {axis.map((label) => <span>{label}</span>)}
+      {axis.map((label) => (
+        <span>{label}</span>
+      ))}
     </div>
   </div>
 
