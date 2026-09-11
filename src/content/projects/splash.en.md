@@ -19,9 +19,6 @@ links: []
 lede: 'A multi-tenant platform that carries a service company from lead to paid invoice: **technician routes, work orders, quotes, subscription service plans, invoicing, a customer portal and a mobile app for the field**. A monorepo of 8 applications and 22 internal packages; the database schema holds 218 models.'
 
 figures:
-  - label: 'Commits'
-    value: '1,223'
-    note: 'one of 2 core contributors on a team of 5'
   - label: 'Tickets closed'
     value: '≈215'
     note: 'feature branches against Linear tickets (SPL-)'
@@ -288,7 +285,7 @@ resumeBlock:
     - 'Implemented **customer import from CSV and migration from the competing Skimmer system**, removing the switching barrier for new platform customers.'
   stackLine: 'TypeScript · Next.js 15 · React 19 · React Native / Expo · tRPC · Express 5 · Prisma 6 · PostgreSQL · Redis · BullMQ · Socket.IO · Typesense · Tailwind v4 · Zod · TanStack Query · Turborepo · Docker · AWS S3 · QuickBooks · Nuvei / Stripe / Maxio · Twilio · Stream Chat · Sentry'
 
-description: 'A breakdown of my work on Splash — a multi-tenant FSM platform for pool service companies: 1,223 commits, ≈215 tickets and 236 database migrations over 17 months.'
+description: 'A breakdown of my work on Splash — a multi-tenant FSM platform for pool service companies: ≈215 tickets and 236 database migrations over 17 months.'
 ogImage: null
 ---
 
