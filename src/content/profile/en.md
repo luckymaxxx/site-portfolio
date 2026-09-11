@@ -10,24 +10,28 @@ name: 'Maksym Sytkiv'
 
 # Один рядок: посада + спеціалізація. Показується великим під іменем.
 # Приклад: 'Full-Stack Engineer · TypeScript, React, Node'
-headline: ''
+headline: 'Full-Stack Engineer · TypeScript, Node, React'
 
 # Місто, країна. Приклад: 'Lviv, Ukraine' або 'Remote · Europe'
-location: ''
+location: 'Lviv, Ukraine'
 
 # Статус доступності або null, якщо показувати не треба.
 # Приклад: 'Open to offers'
-availability: null
+availability: 'Open to offers'
 
 # Пошта для контактів і резюме.
-email: ''
+email: 'sytkivmax@gmail.com'
 
 # Посилання на профілі. label — те, що видно; url — повна адреса з https://
 # Приклад:
 # links:
 #   - { label: 'GitHub', url: 'https://github.com/...' }
 #   - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/...' }
-links: []
+links:
+  [
+    { label: 'GitHub', url: 'https://github.com/luckymaxxx' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/maksym-sytkiv-051008108' },
+  ]
 
 # 2–3 речення для головної сторінки: хто я, у чому сильний, що шукаю.
 bioShort: ''
@@ -44,25 +48,29 @@ skills: []
 
 # Досвід роботи — найновіше зверху. Використовується і на головній (компактно),
 # і на /cv (розгорнуто з bullets).
-# period — вільний рядок, напр. 'Apr 2025 — present'
-# project — slug кейсу, якщо на нього треба дати посилання, інакше null
-# Приклад:
-# experience:
-#   - company: ''
-#     role: ''
-#     period: ''
-#     summary: ''
-#     bullets: ['', '']
-#     stack: ['TypeScript', 'Next.js']
-#     project: 'splash'
-experience: []
+#
+# Якщо запис вказує `project: '<slug>'`, кожне ПОРОЖНЄ поле автоматично
+# береться з resumeBlock цього кейсу: role, period, summary, bullets і рядок
+# стеку. Текст резюме завдяки цьому живе в одному місці — у файлі проекту —
+# і не розходиться між сторінкою кейсу та /cv. Щоб перекрити успадковане,
+# просто заповни поле тут.
+#
+# company порожній → у лівій колонці показується назва проекту.
+# Для запису без кейсу заповни всі поля вручну і постав project: null.
+experience:
+  - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «Splash»
+    role: 'Full-Stack Engineer'
+    project: 'splash'
+  - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «ChatRank»
+    role: 'Full-Stack Engineer'
+    project: 'chatrank'
 
 # Освіта — найновіше зверху.
 # Приклад: - { institution: '', degree: '', period: '2018 — 2022' }
 education: []
 
 # Мови та рівні. Приклад: - { name: 'English', level: 'B2' }
-languages: []
+languages: [{ name: 'English', level: 'B2' }, { name: 'Ukrainian', level: 'Native' }]
 
 # Одне речення для <meta name="description"> і OG головної сторінки.
 description: ''

@@ -2,11 +2,13 @@
 import { getEntry, render } from 'astro:content';
 import '../../styles/print.css';
 import type { Lang } from '../../i18n/ui';
-import { langStaticPaths, useTranslations } from '../../i18n/utils';
+import { langStaticPaths, localizedPath, useTranslations } from '../../i18n/utils';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import StackRows from '../../components/StackRows.astro';
 import ExperienceList from '../../components/ExperienceList.astro';
+import { resolveExperience } from '../../lib/experience';
+import { getProjectsForLang, projectPath } from '../../lib/projects';
 import Prose from '../../components/Prose.astro';
 
 export const getStaticPaths = langStaticPaths;
@@ -24,6 +26,16 @@ const data = profile?.data;
 const { Content } = profile ? await render(profile) : { Content: null };
 const hasBody =
   profile?.body !== undefined && profile.body.replace(/<!--[\s\S]*?-->/g, '').trim() !== '';
+
+// Порожні поля кожного запису добираються з resumeBlock відповідного кейсу,
+// щоб текст резюме не дублювався між сторінкою проекту й /cv.
+const experience = await resolveExperience(data?.experience ?? [], lang);
+const projectHrefs = Object.fromEntries(
+  (await getProjectsForLang(lang)).map((project) => [
+    project.slug,
+    localizedPath(projectPath(project.slug), lang),
+  ]),
+);
 
 const contacts = [
   ...(data?.email ? [{ label: data.email, url: `mailto:${data.email}` }] : []),
@@ -66,10 +78,10 @@ const contacts = [
       </section>
     )}
 
-    {data && data.experience.length > 0 && (
+    {experience.length > 0 && (
       <section>
         <SectionHead title={t('cv.experience')} />
-        <ExperienceList jobs={data.experience} variant="full" />
+        <ExperienceList jobs={experience} variant="full" projectHrefs={projectHrefs} />
       </section>
     )}
 

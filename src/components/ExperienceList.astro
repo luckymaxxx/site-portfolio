@@ -8,6 +8,8 @@ interface Job {
   summary?: string | undefined;
   bullets: string[];
   stack: string[];
+  /** Готовий рядок стеку; має пріоритет над `stack`. */
+  stackLine?: string | undefined;
   project?: string | null | undefined;
 }
 
@@ -46,8 +48,8 @@ const { jobs, variant = 'compact', projectHrefs = {} } = Astro.props;
             </ul>
           )}
 
-          {variant === 'full' && job.stack.length > 0 && (
-            <p class="stackline">{job.stack.join(' · ')}</p>
+          {variant === 'full' && (job.stackLine || job.stack.length > 0) && (
+            <p class="stackline">{job.stackLine ?? job.stack.join(' · ')}</p>
           )}
         </div>
       </li>

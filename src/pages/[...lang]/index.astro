@@ -9,6 +9,7 @@ import SectionHead from '../../components/SectionHead.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import StackRows from '../../components/StackRows.astro';
 import ExperienceList from '../../components/ExperienceList.astro';
+import { resolveExperience } from '../../lib/experience';
 
 export const getStaticPaths = langStaticPaths;
 
@@ -29,6 +30,8 @@ const rest = projects.filter((project) => !project.entry.data.featured);
 const projectHrefs = Object.fromEntries(
   projects.map((project) => [project.slug, localizedPath(projectPath(project.slug), lang)]),
 );
+
+const experience = await resolveExperience(data?.experience ?? [], lang);
 
 const stamp = [
   ...(data?.location ? [{ label: t('home.contact'), value: data.location }] : []),
@@ -114,10 +117,10 @@ function langNote(entryLang: Lang): string {
       </section>
     )}
 
-    {data && data.experience.length > 0 && (
+    {experience.length > 0 && (
       <section>
         <SectionHead title={t('home.experience')} eyebrow={t('home.experienceEyebrow')} />
-        <ExperienceList jobs={data.experience} projectHrefs={projectHrefs} />
+        <ExperienceList jobs={experience} projectHrefs={projectHrefs} />
       </section>
     )}
   </div>

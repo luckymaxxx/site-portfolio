@@ -278,7 +278,7 @@ resumeBlock:
     - 'Built the end-to-end **sales funnel**: branded customer-facing quote pages with e-signature, online approval and payment card capture, plus transactional conversion of a quote into a customer with a recurring service plan.'
     - 'Developed a **real-time route planning system** (tRPC + BullMQ + Redis pub/sub + Socket.IO) and fixed a critical optimiser bug by collapsing three divergent route-cost implementations into one model.'
     - 'Stabilised the **QuickBooks Online sync** under load (eliminated HTTP 429) and moved account mapping into the native settings UI.'
-    - 'Built the **Performance Hub** module from scratch (commissions, bonuses, attendance, feedback, initiatives) — from Prisma models to a feature-flagged UI.'
+    - 'Built the **Performance Hub** module from scratch (commissions, bonuses, attendance, feedback, initiatives) — from Prisma models through to the UI.'
     - "Introduced a **branded transactional email system** that automatically applies the sending location's identity to every email, including the auth flow."
     - 'Worked on the **technician mobile app on Expo / React Native** (day route, checklists, chemical readings, photos, visit reports) with updates delivered over EAS OTA.'
     - 'Implemented **customer import from CSV and data migration from a competing system**, removing the switching barrier for new platform customers.'

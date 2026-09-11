@@ -179,9 +179,10 @@ const profile = defineCollection({
     experience: z
       .array(
         z.object({
-          company: z.string().min(1),
-          role: z.string().min(1),
-          period: z.string().min(1),
+          // Порожні поля успадковуються з resumeBlock проекту, вказаного в `project`.
+          company: z.string().default(''),
+          role: z.string().default(''),
+          period: z.string().default(''),
           summary: z.string().optional(),
           bullets: z.array(z.string()).default([]),
           stack: z.array(z.string()).default([]),
