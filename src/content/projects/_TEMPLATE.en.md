@@ -141,8 +141,8 @@ glossary: []
 #   title: 'Where the code changed · file touches'
 #   note: 'The work is end-to-end: from React screens to the Prisma schema and workers.'
 #   data:
-#     - { label: 'apps/web', value: 3217 }
-#     - { label: 'apps/api', value: 1924 }
+#     - { label: 'Web app', value: 3217 }
+#     - { label: 'API', value: 1924 }
 
 # ------------------------------------------------------------------ КЛЮЧОВІ НАПРЯМКИ
 
@@ -157,7 +157,7 @@ glossary: []
 #     meta: '≈25 tickets'
 #     intro: 'Replaced scattered legacy modals with a single wizard system.'
 #     points:
-#       - 'Carved out a separate `@repo/ui-redesigned` package to migrate gradually'
+#       - 'Carved out a separate component package to migrate gradually'
 #       - 'Built create + edit flows for 11 entities'
 highlights: []
 

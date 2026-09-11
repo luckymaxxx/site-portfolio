@@ -10,7 +10,7 @@ draft: false
 role: 'Full-Stack Engineer'
 periodStart: '2026-06'
 periodEnd: '2026-08'
-status: 'integrations behind feature flags'
+status: 'active development'
 domain: 'AI search optimization (GEO / AEO)'
 teamSize: 2
 cover: null
@@ -63,8 +63,8 @@ glossary:
     definition: 'The theme and the specific question being tracked. Topic is the billing unit: plans are measured in topics rather than in seats.'
   - term: 'Simulation'
     definition: 'A run of a tracked prompt against an AI model, with the answer parsed. Two kinds: `mentions_ranking` (where the brand sits in the list) and `informational`.'
-  - term: 'Ibaia'
-    definition: 'The in-house distributed task framework. Three roles: `publicTask` is the entry point, `subtask` only orchestrates and has no side effects, `atom` is a leaf of the tree that performs its side effect exactly once.'
+  - term: 'Background task framework'
+    definition: 'The in-house distributed task framework. Three roles: an entry point, an intermediate step that only orchestrates and has no side effects, and a leaf of the tree that performs its side effect exactly once.'
   - term: 'Composer document'
     definition: 'The unit of content in the product: statuses `idea / draft / published / canceled / recommendation`. Edited as TipTap over a Yjs CRDT, with the binary state and the body kept in S3 rather than in Postgres.'
   - term: 'CRichTextDoc'
@@ -92,16 +92,16 @@ distributionChart:
   title: 'Where the code changed · file touches'
   note: 'A single feature ran through every layer: Rust converter → WASM bindings → background worker tasks → tRPC → React. Counted over 20 commits (merged work plus the in-flight Shopify stack), lock files excluded.'
   data:
-    - { label: 'exec/agent-os-worker', value: 32 }
-    - { label: 'exec/webapp', value: 27 }
-    - { label: 'rust/lib', value: 21 }
-    - { label: 'lib/api', value: 17 }
-    - { label: 'lib/integrations', value: 16 }
-    - { label: 'lib/db', value: 15 }
-    - { label: 'lib/auth-client', value: 8 }
-    - { label: 'lib/interface', value: 5 }
-    - { label: 'rust/exec', value: 4 }
-    - { label: 'lib/wasm-parser-utils-node', value: 3 }
+    - { label: 'Background worker', value: 32 }
+    - { label: 'Web app', value: 27 }
+    - { label: 'Rust crates', value: 21 }
+    - { label: 'API layer', value: 17 }
+    - { label: 'Integrations', value: 16 }
+    - { label: 'Database schema', value: 15 }
+    - { label: 'Auth client', value: 8 }
+    - { label: 'UI components', value: 5 }
+    - { label: 'Rust binaries', value: 4 }
+    - { label: 'WASM bindings for Node', value: 3 }
 
 highlights:
   - title: 'Rust/WASM rich text format converters'
@@ -115,19 +115,19 @@ highlights:
       - 'Covered it with 29 inline `#[test]` cases against fixtures taken from real posts; the deliberate losses (tables, `underline`, `highlight`) are pinned by their own tests rather than left silent'
 
   - title: 'The sync data model and the write boundary'
-    meta: '1 migration out of 402'
+    meta: 'data model'
     intro: 'Comparing local and remote state needs hashes from both sides and one single point through which a document reaches the database.'
     points:
-      - 'Migration `0373`: `externalId` with a partial unique index, four hash columns (local and remote), two divergence flags with indexes, `syncLastAt` / `syncLastError`, and a `contentSyncCursorAt` cursor on the domain'
+      - 'A dedicated schema migration: an external identifier with a partial unique index, four hash columns (local and remote), two divergence flags with indexes, the timestamp and error of the last sync, and a polling cursor on the domain'
       - 'Introduced the canonical `ComposerDocument { meta, body }`, deliberately keeping publication status outside the versioned pair: publishing is not part of the document content'
-      - 'Wrote `canonical-content.ts` — the write boundary that computes hashes on save — and routed the realtime layer through it, so the columns and the S3 blobs cannot drift apart between the editor, the AI, the importer and the sync'
+      - 'Wrote a dedicated canonical-content module — the write boundary that computes hashes on save — and routed the realtime layer through it, so the columns and the S3 blobs cannot drift apart between the editor, the AI, the importer and the sync'
       - 'Made hashing byte-identical in the API and in the worker (`sha256` over deterministic JSON) — without that, comparing local and remote hashes is meaningless'
 
-  - title: 'The sync orchestrator on Ibaia'
+  - title: 'The sync orchestrator on the background task framework'
     meta: '79% of the content-sync module'
     intro: 'Inbound sync is built as a hub with spokes keyed by CMS type: a shared orchestrator and a separate adapter per platform.'
     points:
-      - 'Wrote three tasks per CMS for all three platforms, following the framework contract (`subtask` only orchestrates, `atom` performs its side effect exactly once), plus three cron tasks'
+      - 'Wrote three tasks per CMS for all three platforms, following the framework contract — intermediate steps only orchestrate, the leaf performs its side effect exactly once — plus three cron tasks'
       - 'Implemented a full document enumeration rather than a delta: a CMS has no tombstones, so a remote deletion is only detectable by reconciling the set of identifiers'
       - 'Laid out the per-document logic: hashes match — touch nothing and do not write to the database; only the remote changed — pull it in quietly; both changed — raise the flag and do not overwrite, a human decides'
       - 'Extended the hosting configuration union with two new kinds — and because every switch is exhaustive with a `never` default, the compiler itself listed every site that needed updating'
@@ -139,7 +139,7 @@ highlights:
       - 'Extracted a `CredentialProvider` interface with a shared token-retrieval contract; the existing `OAuthProvider` now implements it'
       - 'Wrote an abstract `ApiKeyProvider` that puts the key into the same encrypted token table under a distinct `tokenType`, with an idempotent upsert and a revocation check'
       - 'On top of it, thin `PayloadProvider` and `EmDashProvider` of roughly 18 lines each: the entire difference comes down to the shape of the authorization header, which lives in the client rather than the provider'
-      - 'Renamed the `@chatrank/oauth-client` package to `@chatrank/auth-client`, because the name had stopped matching the contents'
+      - 'Renamed the authentication package from `oauth-client` to `auth-client`, because the name had stopped matching the contents'
 
   - title: 'I/O ports for three CMS platforms'
     meta: '2 clients from scratch + hardening a third'
@@ -157,7 +157,7 @@ highlights:
       - 'A discover → connect → publish trio of procedures per platform, plus preview and divergence resolution'
       - 'Publishing renders on the server from the canonical body rather than accepting HTML from the client; for Shopify I added optimistic locking on `updatedAt` — there are no revisions there, so on a mismatch we raise the flag instead of overwriting'
       - 'For EmDash publishing turned out to be two-step: first write as a draft, then promote to live separately — something that surfaced on a live instance, not in the documentation'
-      - 'Connection sections for all three platforms, publish dialogs, and a CMS-agnostic divergence banner in the editor; all of it behind three feature flags scoped to admin and developer only'
+      - 'Connection sections for all three platforms, publish dialogs, and a CMS-agnostic divergence banner in the editor'
       - 'Stood up local Payload and EmDash instances and a Shopify dev app to run the full connect → import → edit → publish path live; that is also where a shared bug with a stale document title on publish came from'
 
   - title: 'Platform selection and architectural analysis'
@@ -216,7 +216,7 @@ stack:
       - { name: 'similar' }
   - group: 'Background and scheduling'
     items:
-      - { name: 'Ibaia (in-house task framework)', key: true }
+      - { name: 'in-house task framework', key: true }
       - { name: 'cron tasks', key: true }
       - { name: 'pm2' }
   - group: 'Integrations'
@@ -226,9 +226,6 @@ stack:
       - { name: 'Shopify Admin GraphQL API', key: true }
       - { name: 'OAuth 2.0 + PKCE', key: true }
       - { name: 'API-key credentials', key: true }
-      - { name: 'OxyLabs' }
-      - { name: 'Moz' }
-      - { name: 'Firecrawl' }
       - { name: 'Slack' }
       - { name: 'Stripe' }
       - { name: 'Clerk' }

@@ -93,23 +93,23 @@ distributionChart:
   title: 'Where the code changed · file touches'
   note: 'The work is end-to-end: from React screens and tRPC procedures down to the Prisma schema, background workers and email templates — usually all layers within a single ticket.'
   data:
-    - { label: 'apps/web', value: 3217 }
-    - { label: 'apps/api', value: 1924 }
-    - { label: 'packages/db/prisma', value: 532 }
-    - { label: 'packages/ui', value: 380 }
-    - { label: 'apps/mobile', value: 306 }
-    - { label: 'apps/ephemeral', value: 164 }
-    - { label: 'packages/ui-redesigned', value: 107 }
-    - { label: 'apps/portal', value: 95 }
-    - { label: 'packages/email', value: 63 }
-    - { label: 'apps/worker', value: 21 }
+    - { label: 'Web app', value: 3217 }
+    - { label: 'API', value: 1924 }
+    - { label: 'Database schema', value: 532 }
+    - { label: 'UI library', value: 380 }
+    - { label: 'Mobile app', value: 306 }
+    - { label: 'Public pages', value: 164 }
+    - { label: 'New UI library', value: 107 }
+    - { label: 'Customer portal', value: 95 }
+    - { label: 'Email templates', value: 63 }
+    - { label: 'Background worker', value: 21 }
 
 highlights:
   - title: 'Step-by-step wizard system'
     meta: '≈25 tickets'
     intro: 'The largest end-to-end workstream: replacing scattered legacy modals with a single system of create and edit wizards.'
     points:
-      - 'Carved out a separate `@repo/ui-redesigned` package with the wizard components, so the migration could go gradually without breaking legacy `@repo/ui`'
+      - 'Carved out a separate package with the wizard components, so the migration could go gradually without breaking the legacy UI library'
       - 'Built create + edit flows for 11 entities: customer, one-off job, recurring job, repair quote, service quote, service plan, job type, invoice, case, campaign, chat'
       - 'Solved progressive step locking, edit-mode hydration through a keyed loader, identifier preservation, and worked around `TS2589` on large React Hook Form schemas'
       - 'Audited every legacy modal and decided what to migrate, what to restyle and what to delete'
@@ -142,7 +142,7 @@ highlights:
       - 'Auto-invoicing and auto-charge after job completion, a nightly billing cron per body of water, payment method fallbacks'
 
   - title: 'QuickBooks Online integration'
-    meta: 'production incidents'
+    meta: 'integration stability'
     intro: "The customer's bookkeeping has to match the platform without double entry."
     points:
       - 'Diagnosed and fixed sync failures under load — `HTTP 429` from the API at high volumes'
@@ -154,8 +154,7 @@ highlights:
     intro: 'Staff motivation and oversight — a separate domain, designed from the data models up to the UI.'
     points:
       - 'Prisma models: commissions, bonuses, attendance, negative feedback categories, reward-based initiatives'
-      - 'A settings page for the module and a feature flag for a staged rollout in production'
-      - "Aligned the module's pages with the standard header and the app's shared table"
+      - "A settings page for the module, and its pages aligned with the standard header and the app's shared table"
 
   - title: 'Technician mobile app'
     meta: '40 commits on the topic'
@@ -296,9 +295,9 @@ network of branches. Every day they have to send technicians out to dozens of pr
 water chemistry, issue invoices, collect payments and not lose a single missed visit. Before Splash all of
 that lives in spreadsheets, messengers and the dispatcher's head.
 
-Architecturally the product is multi-tenant: `Tenant` → many `Location`, with all data isolated by the
-`locationId` held in the session. Each location has its own time zone, branding, billing rules and payment
-credentials.
+Architecturally the product is multi-tenant: a company can run several locations, and each location's
+data is isolated from the others. Each location has its own time zone, branding, billing rules and
+payment credentials.
 
 ## About the numbers
 
