@@ -44,7 +44,80 @@ bioShort: ''
 #     items:
 #       - { name: 'TypeScript', key: true }
 #       - { name: 'SQL' }
-skills: []
+skills:
+  - group: 'Languages'
+    items:
+      - { name: 'TypeScript', key: true }
+      - { name: 'Node.js', key: true }
+      - { name: 'Rust', key: true }
+      - { name: 'SQL', key: true }
+      - { name: 'WASM' }
+  - group: 'Frontend'
+    items:
+      - { name: 'React', key: true }
+      - { name: 'Next.js', key: true }
+      - { name: 'Vite', key: true }
+      - { name: 'Tailwind CSS', key: true }
+      - { name: 'React Hook Form', key: true }
+      - { name: 'TanStack Query', key: true }
+      - { name: 'TanStack Table' }
+      - { name: 'Zustand' }
+      - { name: 'Radix / shadcn' }
+      - { name: 'TipTap / ProseMirror' }
+  - group: 'Backend & API'
+    items:
+      - { name: 'tRPC', key: true }
+      - { name: 'Express.js', key: true }
+      - { name: 'Zod', key: true }
+      - { name: 'REST API' }
+      - { name: 'Hono' }
+      - { name: 'Better Auth' }
+      - { name: 'OAuth 2.0 + PKCE' }
+      - { name: 'multi-tenancy' }
+  - group: 'Realtime & background jobs'
+    items:
+      - { name: 'WebSockets', key: true }
+      - { name: 'Socket.IO', key: true }
+      - { name: 'BullMQ', key: true }
+      - { name: 'Redis pub/sub', key: true }
+      - { name: 'cron jobs' }
+      - { name: 'Yjs / Hocuspocus' }
+  - group: 'Data'
+    items:
+      - { name: 'PostgreSQL', key: true }
+      - { name: 'Prisma', key: true }
+      - { name: 'Drizzle ORM', key: true }
+      - { name: 'Redis', key: true }
+      - { name: 'schema migrations', key: true }
+      - { name: 'MongoDB' }
+      - { name: 'ClickHouse' }
+      - { name: 'Typesense' }
+      - { name: 'AWS S3' }
+  - group: 'Mobile'
+    items:
+      - { name: 'React Native', key: true }
+      - { name: 'Expo', key: true }
+      - { name: 'NativeWind' }
+      - { name: 'EAS Build / Update' }
+  - group: 'Integrations'
+    items:
+      - { name: 'Stripe' }
+      - { name: 'QuickBooks Online' }
+      - { name: 'Twilio Voice / SMS' }
+      - { name: 'Shopify Admin GraphQL API' }
+      - { name: 'Payload CMS' }
+      - { name: 'Stream Chat' }
+  - group: 'Infrastructure & quality'
+    items:
+      - { name: 'pnpm workspaces', key: true }
+      - { name: 'Turborepo', key: true }
+      - { name: 'Docker', key: true }
+      - { name: 'Vitest / Jest', key: true }
+      - { name: 'ESLint / Prettier', key: true }
+      - { name: 'GitHub PR-flow', key: true }
+      - { name: 'Cloudflare Workers' }
+      - { name: 'Sentry' }
+      - { name: 'Playwright' }
 
 # Досвід роботи — найновіше зверху. Використовується і на головній (компактно),
 # і на /cv (розгорнуто з bullets).
