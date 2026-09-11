@@ -1,0 +1,109 @@
+/* ============================================================================
+   Стилі друку для /cv. Підключаються тільки на сторінці резюме.
+   Ціль: A4, 1–2 сторінки, без обрізаних блоків, без кольорових підложок.
+   ========================================================================= */
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  /* Друк завжди у світлій палітрі, незалежно від теми на екрані. */
+  :root,
+  :root[data-theme='dark'],
+  :root[data-theme='light'] {
+    --ground: #ffffff;
+    --surface: #ffffff;
+    --surface-sunk: #ffffff;
+    --ink: #111111;
+    --ink-soft: #333333;
+    --ink-faint: #555555;
+    --line: #999999;
+    --line-soft: #cccccc;
+    --accent: #111111;
+    --accent-deep: #111111;
+    --accent-soft: #ffffff;
+
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff;
+    color: #111111;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  /* Службова навігація на папері не потрібна. */
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .print-btn,
+  .cv-actions {
+    display: none !important;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  .cv {
+    padding: 0;
+  }
+
+  .cv section {
+    margin-top: 18pt;
+  }
+
+  h1 {
+    font-size: 22pt;
+  }
+
+  h2 {
+    font-size: 12pt;
+  }
+
+  h3 {
+    font-size: 11pt;
+  }
+
+  /* Нічого не має розриватися посеред блоку. */
+  section,
+  .job,
+  li,
+  dl,
+  figure,
+  tr {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  /* Посилання на папері мають бути читабельними як адреси. */
+  a[href^='http']::after,
+  a[href^='mailto:']::after {
+    content: ' (' attr(href) ')';
+    font-family: var(--f-mono);
+    font-size: 8.5pt;
+    color: #555555;
+    word-break: break-all;
+  }
+
+  a {
+    text-decoration: none;
+    color: #111111;
+  }
+
+  /* Чіпи друкуються контуром, без заливки. */
+  .chip,
+  code {
+    background: none !important;
+    border-color: #999999 !important;
+    color: #111111 !important;
+  }
+}

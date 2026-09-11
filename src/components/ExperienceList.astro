@@ -1,0 +1,166 @@
+---
+import { inlineMd } from '../lib/inline-md';
+
+interface Job {
+  company: string;
+  role: string;
+  period: string;
+  summary?: string | undefined;
+  bullets: string[];
+  stack: string[];
+  project?: string | null | undefined;
+}
+
+interface Props {
+  jobs: Job[];
+  /** compact — таймлайн на головній; full — розгорнутий запис для CV. */
+  variant?: 'compact' | 'full';
+  /** slug → URL кейсу, щоб дати посилання з запису досвіду. */
+  projectHrefs?: Record<string, string>;
+}
+
+const { jobs, variant = 'compact', projectHrefs = {} } = Astro.props;
+---
+
+<ol class:list={['jobs', variant]}>
+  {jobs.map((job) => {
+    const href = job.project ? projectHrefs[job.project] : undefined;
+
+    return (
+      <li class="job">
+        <div class="meta">
+          <span class="period num">{job.period}</span>
+          <span class="company">{job.company}</span>
+        </div>
+
+        <div class="detail">
+          <h3 class="role">{href ? <a href={href}>{job.role}</a> : job.role}</h3>
+
+          {job.summary && <p class="summary" set:html={inlineMd(job.summary)} />}
+
+          {variant === 'full' && job.bullets.length > 0 && (
+            <ul class="bullets">
+              {job.bullets.map((bullet) => (
+                <li set:html={inlineMd(bullet)} />
+              ))}
+            </ul>
+          )}
+
+          {variant === 'full' && job.stack.length > 0 && (
+            <p class="stackline">{job.stack.join(' · ')}</p>
+          )}
+        </div>
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .jobs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 8px 28px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line-soft);
+    break-inside: avoid;
+  }
+
+  .job:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .period {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+  }
+
+  .company {
+    font-family: var(--f-mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .role {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .role a {
+    text-decoration: none;
+  }
+
+  .role a:hover {
+    color: var(--accent-deep);
+  }
+
+  .summary {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    line-height: 1.5;
+    max-width: 66ch;
+  }
+
+  .bullets {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 74ch;
+  }
+
+  .bullets li {
+    position: relative;
+    padding-left: 17px;
+  }
+
+  .bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 7px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .stackline {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink-faint);
+    max-width: 82ch;
+  }
+
+  @media (max-width: 640px) {
+    .job {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

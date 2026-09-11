@@ -1,7 +1,14 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { langStaticPaths } from '../../i18n/utils';
+import { getEntry } from 'astro:content';
 import type { Lang } from '../../i18n/ui';
+import { absoluteUrl, langStaticPaths, localizedPath, useTranslations } from '../../i18n/utils';
+import { getProjectsForLang, projectPath } from '../../lib/projects';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Masthead from '../../components/Masthead.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import StackRows from '../../components/StackRows.astro';
+import ExperienceList from '../../components/ExperienceList.astro';
 
 export const getStaticPaths = langStaticPaths;
 
@@ -10,10 +17,130 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const profile = await getEntry('profile', lang);
+const data = profile?.data;
+
+const projects = await getProjectsForLang(lang);
+const featured = projects.filter((project) => project.entry.data.featured);
+const rest = projects.filter((project) => !project.entry.data.featured);
+
+const projectHrefs = Object.fromEntries(
+  projects.map((project) => [project.slug, localizedPath(projectPath(project.slug), lang)]),
+);
+
+const stamp = [
+  ...(data?.location ? [{ label: t('home.contact'), value: data.location }] : []),
+  ...(data?.availability ? [{ label: t('home.availability'), value: data.availability }] : []),
+];
+
+const contactLinks = [
+  ...(data?.email ? [{ label: data.email, url: `mailto:${data.email}` }] : []),
+  ...(data?.links ?? []),
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: data?.name || 'Maksym Sytkiv',
+  ...(data?.headline ? { jobTitle: data.headline } : {}),
+  ...(data?.email ? { email: `mailto:${data.email}` } : {}),
+  ...(data?.location ? { address: data.location } : {}),
+  ...(data?.links?.length ? { sameAs: data.links.map((link) => link.url) } : {}),
+  url: absoluteUrl(localizedPath('/', lang), Astro.site),
+};
+
+/** Помітка для кейсу, який доступний лише мовою оригіналу. */
+function langNote(entryLang: Lang): string {
+  return entryLang === 'uk' ? t('card.originalLang') : t('card.originalLangEn');
+}
 ---
 
-<BaseLayout lang={lang} path="/" title="Portfolio">
-  <div class="page">
-    <h1>Home — {lang}</h1>
+<BaseLayout
+  lang={lang}
+  path="/"
+  title={data?.headline || t('nav.work')}
+  description={data?.description}
+  ogImage={data?.ogImage}
+  jsonLd={jsonLd}
+>
+  <div class="page home">
+    <Masthead
+      title={data?.name || 'Maksym Sytkiv'}
+      tagline={data?.headline}
+      stamp={stamp}
+      lede={data?.bioShort}
+      links={contactLinks}
+    />
+
+    {projects.length > 0 && (
+      <section>
+        <SectionHead title={t('home.work')} eyebrow={t('home.workEyebrow')} />
+
+        {featured.length > 0 && (
+          <div class="featured-list">
+            {featured.map((project) => (
+              <ProjectCard
+                project={project.entry.data}
+                lang={lang}
+                href={projectHrefs[project.slug] ?? projectPath(project.slug)}
+                variant="featured"
+                langNote={project.translated ? null : langNote(project.entry.data.lang)}
+              />
+            ))}
+          </div>
+        )}
+
+        {rest.length > 0 && (
+          <div class="rest-list">
+            {rest.map((project) => (
+              <ProjectCard
+                project={project.entry.data}
+                lang={lang}
+                href={projectHrefs[project.slug] ?? projectPath(project.slug)}
+                langNote={project.translated ? null : langNote(project.entry.data.lang)}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    )}
+
+    {data && data.skills.length > 0 && (
+      <section>
+        <SectionHead title={t('home.stack')} eyebrow={t('home.stackEyebrow')} />
+        <StackRows groups={data.skills} />
+      </section>
+    )}
+
+    {data && data.experience.length > 0 && (
+      <section>
+        <SectionHead title={t('home.experience')} eyebrow={t('home.experienceEyebrow')} />
+        <ExperienceList jobs={data.experience} projectHrefs={projectHrefs} />
+      </section>
+    )}
   </div>
 </BaseLayout>
+
+<style>
+  .home {
+    padding-bottom: 26px;
+  }
+
+  .home section {
+    margin-top: 78px;
+  }
+
+  .featured-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .rest-list {
+    margin-top: 34px;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
