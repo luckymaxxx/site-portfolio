@@ -35,12 +35,12 @@ phone: ''
 #   - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/...' }
 links:
   [
-    { label: 'GitHub', url: 'https://github.com/luckymaxxx' },
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/maksym-sytkiv-051008108' },
+    { label: 'GitHub', url: 'https://github.com/luckymaxxx' },
   ]
 
 # 2–3 речення для головної сторінки: хто я, у чому сильний, що шукаю.
-bioShort: 'A full-stack engineer who carries a task through every layer — from the database schema and background workers up to React screens and the mobile app. For the past few years I have been building **B2B products in TypeScript**: real-time route planning, billing and payments, syncing with third-party APIs. I work with coding agents daily — Claude Code and Cursor — and tune them to the project: custom skills, repository rules, MCP. I am looking for a team where an engineer owns a direction, not a ticket queue.'
+bioShort: 'A full-stack engineer who carries a task through every layer — from the database schema and background workers up to React screens and the mobile app. For the past few years I have been building **B2B products in TypeScript**: real-time route planning, billing and payments, syncing with third-party APIs. I work with coding agents daily — Claude Code and Cursor — and tune them to the project: custom skills, repository rules, MCP.'
 
 # Навички для головної та CV. group — назва рядка, items — чіпи.
 # key: true підсвічує чіп акцентом (те, чим користуюсь щодня).
@@ -147,10 +147,22 @@ experience:
   - company: 'Noble.codes'
     role: 'Full-Stack Engineer'
     period: 'April 2025 - Present'
+    bullets:
+      - 'One of two core engineers on the platform, owning product areas end to end — from the database schema and background processing up to the web interface and the mobile app.'
+      - 'Unified how records are created and edited, replacing scattered legacy dialogs with a single step-by-step form system.'
+      - 'Built the path from a commercial proposal to a paying customer: online approval, payment and automatic conversion.'
+      - 'Delivered real-time scheduling and dispatch on top of a background job queue.'
+      - 'Automated invoicing and recurring charges, and stabilised an external accounting integration under load.'
     project: 'splash'
   - company: 'Noble.codes'
     role: 'Full-Stack Engineer'
     period: 'June 2026 - August 2026'
+    bullets:
+      - 'Owned one end-to-end workstream: two-way content synchronisation between the platform and the external systems where that content lives.'
+      - 'Designed the data model and a single write boundary, so the state on both sides could not drift apart unnoticed.'
+      - 'Implemented divergence detection and manual conflict resolution instead of silently overwriting changes made elsewhere.'
+      - 'Wrote text format converters compiled to WebAssembly and covered them with tests over real data.'
+      - 'Generalised integration authentication so new sources could be added without a separate secret store.'
     project: 'chatrank'
   - company: 'Eleks'
     role: 'Backend Engineer'
