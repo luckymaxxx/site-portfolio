@@ -124,6 +124,13 @@ skills:
       - { name: 'Cloudflare Workers' }
       - { name: 'Sentry' }
       - { name: 'Playwright' }
+  - group: 'AI у розробці'
+    items:
+      - { name: 'Claude Code', key: true }
+      - { name: 'Cursor', key: true }
+      - { name: 'MCP-сервери', key: true }
+      - { name: 'власні скіли для агентів', key: true }
+      - { name: 'rules та інструкції проекту', key: true }
 
 # Досвід роботи — найновіше зверху. Використовується і на головній (компактно),
 # і на /cv (розгорнуто з bullets).

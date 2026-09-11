@@ -243,8 +243,11 @@
     break-inside: avoid;
   }
 
-  .plain-meta::before {
-    content: ' - ';
+  /* Дата окремим рядком — так само, як у записах досвіду. Розділювач-символ
+     тут не працює: між span-ами в розмітці є пробіл, і виходило «bachelor , 2014». */
+  .plain-main,
+  .plain-meta {
+    display: block !important;
   }
 
   .plain-main {
