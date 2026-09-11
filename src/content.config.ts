@@ -115,6 +115,9 @@ const projects = defineCollection({
     base: './src/content/projects',
     // файли, що починаються з «_», — це шаблони, у білд вони не потрапляють
     pattern: ['**/*.md', '!**/_*.md'],
+    // Дефолтний generateId зрізає ВСІ розширення, тому splash.uk.md і splash.en.md
+    // отримали б однаковий id і перезаписали одне одного. Лишаємо мовний суфікс.
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
   }),
   schema: z.object({
     // --- ідентифікація ---
@@ -158,6 +161,8 @@ const profile = defineCollection({
   loader: glob({
     base: './src/content/profile',
     pattern: ['**/*.md', '!**/_*.md'],
+    // id колекції — код мови: 'uk' або 'en'
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
   }),
   schema: z.object({
     name: z.string(),
