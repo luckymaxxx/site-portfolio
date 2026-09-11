@@ -139,7 +139,7 @@ experience:
     project: 'chatrank'
   - company: 'Datacenter management tool'
     role: 'Software Developer'
-    period: '1 year 4 months'
+    period: 'July 2021 - March 2025'
     summary: 'A web service providing data management and validation tools for an international banking and financial services provider. It acted as middleware connected to other data management servers, so data updates arrived in time; users could also create and control their own entities. A team of 5.'
     bullets:
       - 'Created classes and API, worked with the database'
@@ -150,7 +150,7 @@ experience:
     project: null
   - company: 'Performance analysis dashboard'
     role: 'Software Developer'
-    period: '1 year 6 months'
+    period: 'January 2020 - June 2021'
     summary: 'Analysis tools for clients: results presented as numbers, widgets, charts and tables. Users could move widgets around, rename them and resize them. A team of 8.'
     bullets:
       - 'Created components, pages, widgets and dashboards'
@@ -162,7 +162,7 @@ experience:
     project: null
   - company: 'Console game (pet project)'
     role: 'Software Developer'
-    period: '3 months'
+    period: 'October 2019 - December 2019'
     summary: 'A simple Pac-Man-like game that runs in the console. Many players could connect to the server at once without interacting with each other: after logging in a player moves with the arrow keys, collects stars and avoids enemies. A leaderboard tracks points and deaths. A team of 2.'
     bullets:
       - 'Built both the server side and the client side'
