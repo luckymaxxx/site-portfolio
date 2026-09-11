@@ -64,6 +64,37 @@ experience:
   - company: '' # TODO: назва компанії-роботодавця; поки порожньо — показується «ChatRank»
     role: 'Full-Stack Engineer'
     project: 'chatrank'
+  - company: 'Datacenter management tool'
+    role: 'Software Developer'
+    period: '1 year 4 months'
+    summary: 'A web service providing data management and validation tools for an international banking and financial services provider. It acted as middleware connected to other data management servers, so data updates arrived in time; users could also create and control their own entities. A team of 5.'
+    bullets:
+      - 'Created classes and API, worked with the database'
+      - 'Optimised the code'
+      - 'Built UI pages'
+      - 'Performed refactoring'
+    stack: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'Vue.js', 'ESLint']
+    project: null
+  - company: 'Performance analysis dashboard'
+    role: 'Software Developer'
+    period: '1 year 6 months'
+    summary: 'Analysis tools for clients: results presented as numbers, widgets, charts and tables. Users could move widgets around, rename them and resize them. A team of 8.'
+    bullets:
+      - 'Created components, pages, widgets and dashboards'
+      - 'Implemented the store and wired widgets and dashboard state into it'
+      - 'Added the standard application styles'
+      - 'Covered the code with unit tests'
+      - 'Raised test coverage and fixed existing tests and bugs'
+    stack: ['Angular', 'RxJS', 'NgRx', 'Redux', 'Sass', 'HTML', 'CSS']
+    project: null
+  - company: 'Console game (pet project)'
+    role: 'Software Developer'
+    period: '3 months'
+    summary: 'A simple Pac-Man-like game that runs in the console. Many players could connect to the server at once without interacting with each other: after logging in a player moves with the arrow keys, collects stars and avoids enemies. A leaderboard tracks points and deaths. A team of 2.'
+    bullets:
+      - 'Built both the server side and the client side'
+    stack: ['Node.js', 'Express.js', 'Socket.IO', 'MongoDB', 'Pug', 'Jest', 'Istanbul', 'Heroku']
+    project: null
 
 # Освіта — найновіше зверху.
 # Приклад: - { institution: '', degree: '', period: '2018 — 2022' }
