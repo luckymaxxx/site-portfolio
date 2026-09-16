@@ -18,7 +18,7 @@ export function getLang(url: URL | string): Lang {
 
 /**
  * Прибирає мовний префікс і повертає канонічний шлях (спільний для всіх мов):
- * '/uk/projects/splash' → '/projects/splash', '/uk' → '/'.
+ * '/uk/projects/my-project' → '/projects/my-project', '/uk' → '/'.
  */
 export function stripLang(pathname: string): string {
   const segments = pathname.split('/').filter(Boolean);

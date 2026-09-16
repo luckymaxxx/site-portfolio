@@ -19,7 +19,7 @@ interface Props {
   /** Опис для <meta description> та OG. */
   description?: string | undefined;
   lang: Lang;
-  /** Канонічний шлях сторінки без мовного префіксу: '/', '/cv', '/projects/splash'. */
+  /** Канонічний шлях сторінки без мовного префіксу: '/', '/cv', '/projects/my-project'. */
   path: string;
   ogImage?: string | null | undefined;
   ogType?: 'website' | 'article';
@@ -98,7 +98,9 @@ const pageTitle = path === '/' ? `${name} — ${title}` : `${title} · ${name}`;
     */}
     <link rel="preload" as="style" href={FONTS_HREF} />
     <link rel="stylesheet" href={FONTS_HREF} media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href={FONTS_HREF} /></noscript>
+    <noscript>
+      <link rel="stylesheet" href={FONTS_HREF} />
+    </noscript>
 
     {/* Тема застосовується до першого рендеру — інакше буде спалах світлого фону. */}
     <script is:inline>

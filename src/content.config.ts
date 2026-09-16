@@ -115,7 +115,7 @@ const projects = defineCollection({
     base: './src/content/projects',
     // файли, що починаються з «_», — це шаблони, у білд вони не потрапляють
     pattern: ['**/*.md', '!**/_*.md'],
-    // Дефолтний generateId зрізає ВСІ розширення, тому splash.uk.md і splash.en.md
+    // Дефолтний generateId зрізає ВСІ розширення, тому <slug>.uk.md і <slug>.en.md
     // отримали б однаковий id і перезаписали одне одного. Лишаємо мовний суфікс.
     generateId: ({ entry }) => entry.replace(/\.md$/, ''),
   }),
@@ -124,7 +124,7 @@ const projects = defineCollection({
     title: z.string().min(1),
     tagline: z.string().min(1),
     lang: z.enum(['en', 'uk']),
-    /** Спільний для обох мов ідентифікатор в URL, напр. 'splash'. */
+    /** Спільний для обох мов ідентифікатор в URL, напр. 'my-project'. */
     slug: z.string().regex(/^[a-z0-9-]+$/, 'Тільки малі латинські літери, цифри й дефіс'),
     featured: z.boolean().default(false),
     order: z.number().int().default(100),

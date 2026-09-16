@@ -1,8 +1,8 @@
 ---
-title: 'ChatRank'
-tagline: 'An AI search optimisation platform (GEO/AEO) for brands and agencies'
+title: 'AI Search Platform'
+tagline: 'AI search optimisation (GEO/AEO) for brands and agencies'
 lang: en
-slug: 'chatrank'
+slug: 'ai-search-platform'
 featured: true
 order: 2
 draft: false
@@ -16,7 +16,7 @@ teamSize: 2
 cover: null
 links: []
 
-lede: 'ChatRank tracks how often a brand gets recommended by ChatGPT, Perplexity, Claude and Google AI Overviews, and helps write the kind of content those models cite. A monorepo on Postgres with Rust crates compiled to WASM. I was on the project for **six weeks and owned one end-to-end workstream — two-way content sync with the customer CMS**: three connectors (Payload, EmDash, Shopify), a canonical text format in Rust, and the sync orchestrator.'
+lede: 'The platform tracks how often a brand gets recommended by the leading AI assistants, and helps write the kind of content those models cite. A monorepo on Postgres with Rust crates compiled to WASM. I was on the project for **six weeks and owned one end-to-end workstream — two-way content sync with the customer CMS**: three connectors to different content management systems, a canonical text format in Rust, and the sync orchestrator.'
 
 figures:
   - label: 'PRs across 3 stacks'
@@ -39,8 +39,8 @@ figures:
     note: '119 commits across branches, 13 in next after squash merges'
 
 pains:
-  - pain: 'Audiences increasingly ask ChatGPT and Perplexity instead of a search engine'
-    solution: 'GEO Tracking: how often the brand is mentioned and recommended by ChatGPT, Perplexity, Claude and Google AI Overviews'
+  - pain: 'Audiences increasingly ask AI assistants instead of a search engine'
+    solution: 'GEO Tracking: how often the brand is mentioned and recommended by the leading AI assistants'
   - pain: 'Classic SEO metrics say nothing about whether AI recommends you'
     solution: 'Brand visibility and position per prompt and per topic, competitor tracking, daily or weekly data refreshes'
   - pain: 'No way to know what people actually ask AI in your category'
@@ -54,7 +54,7 @@ pains:
   - pain: 'Content lives in the customer CMS, the platform only holds a copy, and the two drift apart'
     solution: 'Two-way sync: import from the CMS including drafts, publishing straight from the editor, and divergence detection instead of a silent overwrite'
   - pain: 'Every CMS has its own article body format and its own API'
-    solution: 'A canonical `CRichTextDoc` format and a single I/O port per platform; every conversion lives in one Rust crate instead of hand-rolled mapping per CMS'
+    solution: 'A canonical text format and a single I/O port per platform; every conversion lives in one Rust crate instead of hand-rolled mapping per CMS'
 
 glossary:
   - term: 'GEO / AEO'
@@ -65,18 +65,18 @@ glossary:
     definition: 'A run of a tracked prompt against an AI model, with the answer parsed. Two kinds: `mentions_ranking` (where the brand sits in the list) and `informational`.'
   - term: 'Background task framework'
     definition: 'The in-house distributed task framework. Three roles: an entry point, an intermediate step that only orchestrates and has no side effects, and a leaf of the tree that performs its side effect exactly once.'
-  - term: 'Composer document'
+  - term: 'Content document'
     definition: 'The unit of content in the product: statuses `idea / draft / published / canceled / recommendation`. Edited as TipTap over a Yjs CRDT, with the binary state and the body kept in S3 rather than in Postgres.'
-  - term: 'CRichTextDoc'
-    definition: 'The canonical text interchange format, described by a Rust type and compiled to WASM. Deliberately the semantic common denominator rather than a superset of every CMS: each new node costs handling in seven converters.'
+  - term: 'Canonical text format'
+    definition: 'The text interchange format, described by a Rust type and compiled to WASM. Deliberately the semantic common denominator rather than a superset of every CMS: each new node costs handling in seven converters.'
   - term: 'Hosting configuration'
-    definition: 'A union keyed on `kind` (`shopify / wordpress / other / payload / emdash`) attached to the brand domain. Inbound sync is routed by it — hub and spokes, with an exhaustive `never` default.'
+    definition: 'A union keyed on the kind of system the brand site runs on. Inbound sync is routed by it — hub and spokes, with an exhaustive `never` default.'
   - term: 'Divergence / echo suppression'
     definition: 'Local content and metadata hashes against the remote ones. If both sides changed, raise a divergence flag and do not merge automatically. After writing ourselves, store the hash of what was written so the next poll does not mistake our own change for someone else.'
 
 timelineChart:
   title: 'Commits per week'
-  note: 'The whole engagement was six weeks. The W27 peak is the run-up to the Payload PR stack. The W31 gap is the pause between the EmDash and Shopify stacks. Counted across all my branches, including pre-squash history.'
+  note: 'The whole engagement was six weeks. The W27 peak is the run-up to the first platform PR stack. The W31 gap is the pause between the second and third stacks. Counted across all my branches, including pre-squash history.'
   max: 35
   axis: ['30 Jun', '20 Jul', '11 Aug']
   data:
@@ -90,7 +90,7 @@ timelineChart:
 
 distributionChart:
   title: 'Where the code changed · file touches'
-  note: 'A single feature ran through every layer: Rust converter → WASM bindings → background worker tasks → tRPC → React. Counted over 20 commits (merged work plus the in-flight Shopify stack), lock files excluded.'
+  note: 'A single feature ran through every layer: Rust converter → WASM bindings → background worker tasks → tRPC → React. Counted over 20 commits (merged work plus the third stack, still in flight), lock files excluded.'
   data:
     - { label: 'Background worker', value: 32 }
     - { label: 'Web app', value: 27 }
@@ -108,10 +108,10 @@ highlights:
     meta: '42% of the rich-text crate'
     intro: 'Every CMS stores the article body in its own format; instead of hand-rolled mapping per platform, all conversions live in one Rust crate that also runs on the server.'
     points:
-      - 'Wrote `from_lexical.rs` / `to_lexical.rs` — the Payload editor format ↔ the canonical `CRichTextDoc`, tree to tree, with no intermediate HTML (the HTML round-trip in Payload is lossy)'
-      - 'Wrote `from_portable_text.rs` / `to_portable_text.rs` for EmDash — lists were the hard part: Portable Text keeps them flat (`listItem` plus `level` on sibling blocks) while the canonical model nests them, so the converter folds and unfolds them in both directions'
+      - 'Wrote a converter pair for the tree-shaped editor format ↔ the canonical format: tree to tree, with no intermediate HTML (the HTML round-trip on that platform is lossy)'
+      - 'Wrote a converter pair for the flat block format — lists were the hard part: that format keeps them flat (`listItem` plus `level` on sibling blocks) while the canonical model nests them, so the converter folds and unfolds them in both directions'
       - 'Made serialisation deterministic through positional `_key` values — without that, hash-based echo suppression cannot work, because every export would produce a new hash'
-      - 'Exposed all of it through `#[wasm_bindgen]` and added `richText.fromLexical / toPortableText` TS facades in the Node and Vite packages, so the same conversion runs in the browser and in the worker'
+      - 'Exposed all of it through `#[wasm_bindgen]` and added conversion TS facades in the Node and Vite packages, so the same conversion runs in the browser and in the worker'
       - 'Covered it with 29 inline `#[test]` cases against fixtures taken from real posts; the deliberate losses (tables, `underline`, `highlight`) are pinned by their own tests rather than left silent'
 
   - title: 'The sync data model and the write boundary'
@@ -119,7 +119,7 @@ highlights:
     intro: 'Comparing local and remote state needs hashes from both sides and one single point through which a document reaches the database.'
     points:
       - 'A dedicated schema migration: an external identifier with a partial unique index, four hash columns (local and remote), two divergence flags with indexes, the timestamp and error of the last sync, and a polling cursor on the domain'
-      - 'Introduced the canonical `ComposerDocument { meta, body }`, deliberately keeping publication status outside the versioned pair: publishing is not part of the document content'
+      - 'Introduced a canonical `{ meta, body }` pair for the content document, deliberately keeping publication status outside the versioned pair: publishing is not part of the document content'
       - 'Wrote a dedicated canonical-content module — the write boundary that computes hashes on save — and routed the realtime layer through it, so the columns and the S3 blobs cannot drift apart between the editor, the AI, the importer and the sync'
       - 'Made hashing byte-identical in the API and in the worker (`sha256` over deterministic JSON) — without that, comparing local and remote hashes is meaningless'
 
@@ -134,38 +134,38 @@ highlights:
 
   - title: 'A credentials abstraction beyond OAuth'
     meta: 'a new layer'
-    intro: 'The project only had an OAuth path; Payload authenticates with a static API key and EmDash with a Personal Access Token. Rather than add a second secret store, I generalised the existing one.'
+    intro: 'The project only had an OAuth path; one platform authenticates with a static API key and another with a Personal Access Token. Rather than add a second secret store, I generalised the existing one.'
     points:
       - 'Extracted a `CredentialProvider` interface with a shared token-retrieval contract; the existing `OAuthProvider` now implements it'
       - 'Wrote an abstract `ApiKeyProvider` that puts the key into the same encrypted token table under a distinct `tokenType`, with an idempotent upsert and a revocation check'
-      - 'On top of it, thin `PayloadProvider` and `EmDashProvider` of roughly 18 lines each: the entire difference comes down to the shape of the authorization header, which lives in the client rather than the provider'
+      - 'On top of it, a thin provider per platform of roughly 18 lines each: the entire difference comes down to the shape of the authorization header, which lives in the client rather than the provider'
       - 'Renamed the authentication package from `oauth-client` to `auth-client`, because the name had stopped matching the contents'
 
   - title: 'I/O ports for three CMS platforms'
     meta: '2 clients from scratch + hardening a third'
     intro: 'One class per platform: authentication, CRUD, rate limits, error mapping. They all return errors as values, never throw, and `safeParse` at the boundary.'
     points:
-      - '`PayloadClient` from scratch: listing including drafts, upsert, and GraphQL introspection to auto-discover collections and fields — instances belong to customers and every schema differs'
-      - '`EmDashClient` from scratch: cursor pagination, a separate publish step (draft → live), collection discovery. Testing against a live instance revealed that the platform wraps responses in a `{ data: … }` envelope — unwrapping that envelope is what made the import work'
-      - 'Hardened the existing `ShopifyClient` up to sync grade: cost-aware throttling driven by `extensions.cost.throttleStatus` with backoff on `THROTTLED` and `429 Retry-After`, incremental article listing by an `updated_at` cursor, and `userErrors` lifted into typed errors'
-      - 'Wrote SSRF protection for base URLs on `ipaddr.js` — the instance address is user-supplied; first for Payload, then generalised across every platform'
+      - 'A client for the self-hosted CMS from scratch: listing including drafts, upsert, and GraphQL introspection to auto-discover collections and fields — instances belong to customers and every schema differs'
+      - 'A client for the cloud CMS from scratch: cursor pagination, a separate publish step (draft → live), collection discovery. Testing against a live instance revealed that the platform wraps responses in a `{ data: … }` envelope — unwrapping that envelope is what made the import work'
+      - 'Hardened the existing e-commerce platform client up to sync grade: cost-aware throttling driven by `extensions.cost.throttleStatus` with backoff on `THROTTLED` and `429 Retry-After`, incremental article listing by an `updated_at` cursor, and `userErrors` lifted into typed errors'
+      - 'Wrote SSRF protection for base URLs on `ipaddr.js` — the instance address is user-supplied; first for one platform, then generalised across every platform'
 
   - title: 'tRPC procedures and the connection UI'
     meta: '75% of integrations.ts'
     intro: 'The user-facing side: connect a CMS, map the collections, publish a document, see the divergence.'
     points:
       - 'A discover → connect → publish trio of procedures per platform, plus preview and divergence resolution'
-      - 'Publishing renders on the server from the canonical body rather than accepting HTML from the client; for Shopify I added optimistic locking on `updatedAt` — there are no revisions there, so on a mismatch we raise the flag instead of overwriting'
-      - 'For EmDash publishing turned out to be two-step: first write as a draft, then promote to live separately — something that surfaced on a live instance, not in the documentation'
+      - 'Publishing renders on the server from the canonical body rather than accepting HTML from the client; for the e-commerce platform I added optimistic locking on `updatedAt` — there are no revisions there, so on a mismatch we raise the flag instead of overwriting'
+      - 'On one platform publishing turned out to be two-step: first write as a draft, then promote to live separately — something that surfaced on a live instance, not in the documentation'
       - 'Connection sections for all three platforms, publish dialogs, and a CMS-agnostic divergence banner in the editor'
-      - 'Stood up local Payload and EmDash instances and a Shopify dev app to run the full connect → import → edit → publish path live; that is also where a shared bug with a stale document title on publish came from'
+      - 'Stood up local instances of both CMS platforms and an e-commerce dev app to run the full connect → import → edit → publish path live; that is also where a shared bug with a stale document title on publish came from'
 
   - title: 'Platform selection and architectural analysis'
     meta: 'a 328-line document'
     intro: 'Before any code, the question was which CMS platforms to integrate and in what order.'
     points:
-      - 'Compared four platforms (Payload, EmDash, WordPress, Shopify) across nine criteria: API maturity, format friendliness, authentication complexity, change detection, drafts and conflict signals, media, and time to stand up an environment'
-      - 'Argued for the sequence: Payload first as the most stable platform, so any early bug is certainly ours rather than theirs; then EmDash with the cleanest format; then Shopify, where the client and OAuth already existed and only the orchestrator part was missing; WordPress last, because of Gutenberg and the spread of site configurations'
+      - 'Compared four platforms across nine criteria: API maturity, format friendliness, authentication complexity, change detection, drafts and conflict signals, media, and time to stand up an environment'
+      - 'Argued for the sequence: the most stable platform first, so any early bug is certainly ours rather than theirs; then the one with the cleanest format; then the e-commerce platform, where the client and OAuth already existed and only the orchestrator part was missing; the mass-market CMS last, because of the spread of site configurations'
       - 'Framed a loss budget for conversion: every CMS construct is classified into one of five buckets (first-class node / opaque passthrough / flatten / metadata / drop), because each new canonical node costs handling in every converter at once'
       - 'Broke each integration into a stack of 4–5 dependent PRs instead of one large one — reviewing a single layer at a time: migration → Rust → authentication → backend → frontend'
 
@@ -221,9 +221,8 @@ stack:
       - { name: 'pm2' }
   - group: 'Integrations'
     items:
-      - { name: 'Payload CMS 3', key: true }
-      - { name: 'EmDash', key: true }
-      - { name: 'Shopify Admin GraphQL API', key: true }
+      - { name: 'headless CMS APIs', key: true }
+      - { name: 'e-commerce Admin API', key: true }
       - { name: 'OAuth 2.0 + PKCE', key: true }
       - { name: 'API-key credentials', key: true }
       - { name: 'Slack' }
@@ -242,26 +241,26 @@ stack:
       - { name: 'Linear' }
 
 resumeBlock:
-  role: 'Full-Stack Engineer — ChatRank (AI search optimisation platform)'
+  role: 'Full-Stack Engineer — AI search optimisation platform'
   period: 'June — August 2026'
   summary: 'A monorepo of 10 applications and 56 packages: React 19 + tRPC, background task workers, Rust crates in WASM, a 63-table Postgres schema and ClickHouse. I owned one end-to-end workstream — two-way content sync with the customer CMS.'
   bullets:
-    - 'Designed and shipped **two-way content sync with three CMS platforms** (Payload, EmDash, Shopify) — **14 pull requests across three stacks of dependent branches**; of the nine PRs merged into mainline in that period, eight were mine.'
-    - 'Wrote **four rich text format converters in Rust** (Lexical ↔ canonical format, Portable Text ↔ canonical format) — **42% of the crate** — compiled to WASM, with TS facades for browser and server and 29 unit tests over fixtures from real posts.'
+    - 'Designed and shipped **two-way content sync with three content platforms** — **14 pull requests across three stacks of dependent branches**; of the nine PRs merged into mainline in that period, eight were mine.'
+    - 'Wrote **four rich text format converters in Rust** (a tree-shaped and a flat block format ↔ the canonical one) — **42% of the crate** — compiled to WASM, with TS facades for browser and server and 29 unit tests over fixtures from real posts.'
     - 'Built the **sync orchestrator on the in-house background task framework** (79% of the module): remote deletion detection by set reconciliation, hash-based divergence detection with no auto-merge, and echo suppression after our own publish.'
     - 'Designed the **sync data model** — content and metadata hashes on both sides, divergence flags, a polling cursor — and a **single write boundary for documents**, so the Postgres columns and the S3 blobs cannot drift apart between the editor, the AI, the importer and the sync.'
     - 'Generalised integration authentication: extracted a **credential provider interface** over the existing OAuth path and added a static API-key path that reuses the same encrypted token store.'
-    - 'Wrote **two API clients from scratch** (Payload, EmDash) and hardened a third (Shopify) to sync grade: cost-aware throttling against the GraphQL query budget, backoff on `429`, incremental cursor-based listing, and SSRF protection for user-supplied base URLs.'
+    - 'Wrote **two API clients from scratch** and hardened a third to sync grade: cost-aware throttling against the GraphQL query budget, backoff on `429`, incremental cursor-based listing, and SSRF protection for user-supplied base URLs.'
     - 'Ran a **comparison of four CMS platforms across nine criteria** and argued the integration order the team went on to follow; broke each integration into a stack of 4–5 dependent PRs instead of one large one.'
-  stackLine: 'TypeScript · Rust · WASM · React 19 · tRPC v11 · Zod 4 · Drizzle · PostgreSQL · S3 · Cloudflare Workers · Yjs / Hocuspocus · Payload CMS · Shopify GraphQL Admin API · OAuth 2.0'
+  stackLine: 'TypeScript · Rust · WASM · React 19 · tRPC v11 · Zod 4 · Drizzle · PostgreSQL · S3 · Cloudflare Workers · Yjs / Hocuspocus · headless CMS APIs · e-commerce Admin API · OAuth 2.0'
 
-description: 'A breakdown of my work on ChatRank, an AI search optimisation platform: two-way content sync with three CMS platforms, rich text format converters in Rust/WASM, and a background task orchestrator.'
+description: 'A breakdown of my work on an AI search optimisation platform: two-way content sync with three CMS platforms, rich text format converters in Rust/WASM, and a background task orchestrator.'
 ogImage: null
 ---
 
 ## On the size of the engagement
 
-This is not my project and I was not its main contributor. ChatRank has been in
+This is not my project and I was not its main contributor. The product has been in
 development since November 2024; the `next` branch holds roughly 4,500 commits from
 fifteen authors across its whole history. Thirteen of them are mine — 0.3%.
 

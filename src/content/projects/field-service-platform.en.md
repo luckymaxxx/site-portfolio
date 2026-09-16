@@ -1,8 +1,8 @@
 ---
-title: 'Splash'
-tagline: 'Field service management SaaS for pool service companies in the US'
+title: 'Field Service Platform'
+tagline: 'Field service management SaaS for service companies in the US'
 lang: en
-slug: 'splash'
+slug: 'field-service-platform'
 featured: true
 order: 1
 draft: false
@@ -44,15 +44,15 @@ pains:
   - pain: 'Double bookkeeping in QuickBooks'
     solution: 'QuickBooks Online sync: customers, products, invoices, payments and account mapping'
   - pain: 'The technician in the field is cut off from the data'
-    solution: "A mobile app: the day's route, checklists, chemical readings and dosing, before/after photos, reports and signatures"
-  - pain: 'The customer cannot see what is happening with their pool'
+    solution: "A mobile app: the day's route, checklists, field readings and materials used, before/after photos, reports and signatures"
+  - pain: 'The customer cannot see what is happening at their site'
     solution: 'A customer portal, public online visit reports, email and SMS notifications, plus review collection and attribution on Google and Yelp'
   - pain: 'No visibility into staff performance'
     solution: 'Performance Hub: commissions, bonuses, attendance, negative feedback and reward-based initiatives'
 
 glossary:
-  - term: 'Body of water'
-    definition: 'The unit of service — a specific pool or spa at a property. The service plan, price and billing attach to it, not to the customer.'
+  - term: 'Unit of service'
+    definition: 'A specific serviced object at the customer address. The service plan, price and billing attach to it, not to the customer.'
   - term: 'Stop'
     definition: "A single technician visit in the day's route. It has 9 lifecycle states, from `PENDING` to `SKIPPED_PARTIALLY`."
   - term: 'Service plan'
@@ -60,7 +60,7 @@ glossary:
   - term: 'Work order / Job'
     definition: 'One-off work outside the plan — a repair, a season opening, equipment diagnostics.'
   - term: 'Service quote'
-    definition: 'A commercial proposal for a new customer: plans per body of water, one-off jobs, discounts and tax.'
+    definition: 'A commercial proposal for a new customer: plans per unit of service, one-off jobs, discounts and tax.'
   - term: 'Skipped stop'
     definition: 'A visit that did not happen, with a reason (locked gate, dog, weather) — its own queue for triage and reassignment.'
 
@@ -139,7 +139,7 @@ highlights:
       - 'A full invoice redesign from a wizard into a single-page document with four states and two-way line-item sync with the job'
       - "Recall Invoice — invalidating the customer's payment link and returning the invoice to OPEN"
       - 'An arrears rule for per-unit billing: a shared Zod refine across all schemas, automatic switching in the UI, and a migration of already invalid data'
-      - 'Auto-invoicing and auto-charge after job completion, a nightly billing cron per body of water, payment method fallbacks'
+      - 'Auto-invoicing and auto-charge after job completion, a nightly billing cron per unit of service, payment method fallbacks'
 
   - title: 'QuickBooks Online integration'
     meta: 'integration stability'
@@ -162,7 +162,7 @@ highlights:
     points:
       - 'Visit reports and checklists that block completion while required items are open'
       - 'Split the service stop and work order flows, route cards, and a lead technician tag on multi-tech jobs'
-      - 'Photo galleries, chemical readings and dosing, quote screens, and a Lead Center adaptation'
+      - 'Photo galleries, field readings and materials used, quote screens, and a Lead Center adaptation'
       - 'Update delivery over EAS OTA with a runtime config instead of values baked into the bundle'
 
   - title: 'Communications and branding'
@@ -269,9 +269,9 @@ stack:
       - { name: 'Linear' }
 
 resumeBlock:
-  role: 'Full-Stack Engineer — Splash (Field Service Management SaaS)'
+  role: 'Full-Stack Engineer — Field Service Management SaaS'
   period: 'April 2025 — present'
-  summary: 'A multi-tenant B2B platform for pool service companies in the US: technician route planning, work orders, commercial quotes, subscription service plans, invoicing and payments, a customer portal and a mobile app for the field. A monorepo of 8 applications and 22 packages, on a PostgreSQL schema of 218 models.'
+  summary: 'A multi-tenant B2B platform for field service companies in the US: technician route planning, work orders, commercial quotes, subscription service plans, invoicing and payments, a customer portal and a mobile app for the field. A monorepo of 8 applications and 22 packages, on a PostgreSQL schema of 218 models.'
   bullets:
     - "Delivered **≈215 product tickets** as one of two core engineers; authored **236 of the project's 608** database migrations."
     - 'Designed and shipped a **step-by-step wizard design system** in a dedicated package and migrated 11 key create and edit flows onto it — unifying the UX for customers, jobs, quotes, plans and invoices with no regressions in legacy code.'
@@ -280,19 +280,19 @@ resumeBlock:
     - 'Stabilised the **QuickBooks Online sync** under load (eliminated HTTP 429) and moved account mapping into the native settings UI.'
     - 'Built the **Performance Hub** module from scratch (commissions, bonuses, attendance, feedback, initiatives) — from Prisma models through to the UI.'
     - "Introduced a **branded transactional email system** that automatically applies the sending location's identity to every email, including the auth flow."
-    - 'Worked on the **technician mobile app on Expo / React Native** (day route, checklists, chemical readings, photos, visit reports) with updates delivered over EAS OTA.'
+    - 'Worked on the **technician mobile app on Expo / React Native** (day route, checklists, field readings, photos, visit reports) with updates delivered over EAS OTA.'
     - 'Implemented **customer import from CSV and data migration from a competing system**, removing the switching barrier for new platform customers.'
   stackLine: 'TypeScript · Next.js 15 · React 19 · React Native / Expo · tRPC · Express 5 · Prisma 6 · PostgreSQL · Redis · BullMQ · Socket.IO · Typesense · Tailwind v4 · Zod · TanStack Query · Turborepo · Docker · AWS S3 · QuickBooks · Nuvei / Stripe / Maxio · Twilio · Stream Chat · Sentry'
 
-description: 'A breakdown of my work on Splash — a multi-tenant FSM platform for pool service companies: ≈215 tickets and 236 database migrations over 17 months.'
+description: 'A breakdown of my work on a multi-tenant FSM platform for field service companies: ≈215 tickets and 236 database migrations over 17 months.'
 ogImage: null
 ---
 
 ## Who the product is sold to
 
 The buyer is the owner or dispatcher of a service company in the US: anywhere from a single crew to a
-network of branches. Every day they have to send technicians out to dozens of private pools, record the
-water chemistry, issue invoices, collect payments and not lose a single missed visit. Before Splash all of
+network of branches. Every day they have to send technicians out to dozens of private sites, record the
+work done, issue invoices, collect payments and not lose a single missed visit. Before the platform all of
 that lives in spreadsheets, messengers and the dispatcher's head.
 
 Architecturally the product is multi-tenant: a company can run several locations, and each location's

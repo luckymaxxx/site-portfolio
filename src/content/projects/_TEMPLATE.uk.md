@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------ ІДЕНТИФІКАЦІЯ
 
 # ОБОВ'ЯЗКОВЕ. Назва проекту так, як вона стоїть у шапці кейсу.
-# Приклад: 'Splash'
+# Приклад: 'Internal Tooling Platform'
 title: ''
 
 # ОБОВ'ЯЗКОВЕ. Один рядок: що це за продукт і для кого. Показується під назвою
@@ -28,7 +28,7 @@ lang: uk
 
 # ОБОВ'ЯЗКОВЕ. Спільний для обох мовних версій ідентифікатор в URL.
 # Тільки малі латинські літери, цифри й дефіс. Має збігатися у .uk.md і .en.md.
-# Приклад: 'splash' → /projects/splash та /uk/projects/splash
+# Приклад: 'my-project' → /projects/my-project та /uk/projects/my-project
 slug: ''
 
 # true → проект показується великою карткою з обкладинкою вгорі «Вибраних проектів».
@@ -61,7 +61,7 @@ domain: ''
 # Розмір команди числом, або null якщо не показувати. Приклад: 12
 teamSize: null
 
-# Шлях до обкладинки в public/, напр. '/projects/splash-cover.png', або null.
+# Шлях до обкладинки в public/, напр. '/projects/my-project-cover.png', або null.
 # Рекомендований розмір 1600×900 (16:9), PNG або JPG до ~300 КБ.
 cover: null
 
@@ -181,7 +181,7 @@ stack: []
 # із кнопкою «виділити все». Прибери блок, якщо не потрібен.
 #
 # resumeBlock:
-#   role: 'Full-Stack Engineer — Splash (Field Service Management SaaS)'
+#   role: 'Full-Stack Engineer — Field Service Management SaaS'
 #   period: 'квітень 2025 — тепер'
 #   summary: 'Мультитенантна B2B-платформа для компаній з обслуговування басейнів.'
 #   bullets:
@@ -195,7 +195,7 @@ stack: []
 # До 160 символів, без крапки в кінці не обов'язково.
 description: ''
 
-# Шлях до OG-зображення в public/og/, напр. '/og/splash.png', або null.
+# Шлях до OG-зображення в public/og/, напр. '/og/my-project.png', або null.
 # Рекомендований розмір 1200×630.
 ogImage: null
 ---
