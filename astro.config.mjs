@@ -3,9 +3,9 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// TODO: замінити на реальний домен перед деплоєм — від нього залежать
-// canonical-посилання, hreflang, OG-теги та sitemap.
-const SITE = 'https://maksymsytkiv.com';
+// Адреса продакшн-деплою. Від неї будуються canonical-посилання, hreflang,
+// OG-теги та sitemap, тож при переїзді на власний домен міняти треба тут.
+const SITE = 'https://maksym-sytkiv-site-portfolio.vercel.app';
 
 export default defineConfig({
   site: SITE,
