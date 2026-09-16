@@ -46,6 +46,9 @@ const name = profile?.data.name || 'Maksym Sytkiv';
 const siteName = name;
 const metaDescription = description || profile?.data.description || '';
 
+const FONTS_HREF =
+  'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap';
+
 const t = useTranslations(lang);
 const canonical = absoluteUrl(localizedPath(path, lang), Astro.site);
 const alternates = getAlternates(path, Astro.site);
@@ -86,10 +89,16 @@ const pageTitle = path === '/' ? `${name} — ${title}` : `${title} · ${name}`;
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap"
-    />
+    {/*
+      Таблиця Google Fonts блокувала перший рендер: Lighthouse оцінював втрату
+      в 3.3 с на сторінці кейсу, бо до першого пікселя треба було встановити
+      з'єднання ще з двома чужими origin. Тепер вона вантажиться асинхронно
+      через media="print" + onload, а текст одразу малюється запасною
+      гарнітурою — у URL і так стоїть display=swap, тож підміна була б однаково.
+    */}
+    <link rel="preload" as="style" href={FONTS_HREF} />
+    <link rel="stylesheet" href={FONTS_HREF} media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href={FONTS_HREF} /></noscript>
 
     {/* Тема застосовується до першого рендеру — інакше буде спалах світлого фону. */}
     <script is:inline>
