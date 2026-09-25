@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import vercel from '@astrojs/vercel';
 
 // Адреса продакшн-деплою. Від неї будуються canonical-посилання, hreflang,
 // OG-теги та sitemap, тож при переїзді на власний домен міняти треба тут.
@@ -10,6 +11,11 @@ const SITE = 'https://maksym-sytkiv-site-portfolio.vercel.app';
 export default defineConfig({
   site: SITE,
   output: 'static',
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   trailingSlash: 'ignore',
   i18n: {
     locales: ['en', 'uk'],
